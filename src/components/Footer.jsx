@@ -34,10 +34,10 @@ function Footer() {
 
         <div className="footer-new-bottom">
           <div className="footer-policies">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Refund Policy</a>
-            <a href="#">Terms and Conditions</a>
-            <a href="#">Terms of Use</a>
+            <a href="/">Privacy Policy</a>
+            <a href="/">Refund Policy</a>
+            <a href="/">Terms and Conditions</a>
+            <a href="/">Terms of Use</a>
           </div>
           <p className="footer-copy">© {foundedYear} {companyName}. All rights reserved.</p>
         </div>

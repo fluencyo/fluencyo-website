@@ -39,14 +39,14 @@ function CTA() {
           <h2>Start your language<br/><span className="gradient-text">journey today</span></h2>
           <p>Free to download. No commitment. Just you, Fluto, and the language you have always wanted to speak.</p>
           <div className="cta-btns">
-            <a href="#" className="store-btn store-btn-ios">
+            <a href="/" className="store-btn store-btn-ios">
               <AppleIcon />
               <div>
                 <span className="store-btn-label">Download on the</span>
                 <span className="store-btn-name">App Store</span>
               </div>
             </a>
-            <a href="#" className="store-btn store-btn-android">
+            <a href="/" className="store-btn store-btn-android">
               <PlayIcon />
               <div>
                 <span className="store-btn-label">Get it on</span>
