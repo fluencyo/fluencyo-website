@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+export const flagUrl = (code) =>
+  `https://flagcdn.com/w80/${code.toLowerCase()}.png`;
 function Globe() {
   const canvasRef = useRef(null);
 
