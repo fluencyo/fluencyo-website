@@ -1,7 +1,7 @@
 import config from "../data/siteConfig";
 
 function Footer() {
-  const { social, companyName, foundedYear, email } = config;
+  const { social, companyName, foundedYear } = config;
 
   return (
     <footer className="footer-new">

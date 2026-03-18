@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React from 'react'
 
 const row1 = [
   { initials:"AK", name:"Arjun K.", flag:"🇮🇳", detail:"Learning Japanese · 6 months", text:"Fluto feels like a real tutor. It catches when I'm struggling and slows down for me. I've tried every app and nothing comes close to this experience." },
