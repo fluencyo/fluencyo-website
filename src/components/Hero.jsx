@@ -9,7 +9,6 @@ function Hero() {
           <div className="hero-content">
             <div className="hero-badge">
               <span className="dot"></span>
-              Powered by AI · Free to Start
             </div>
             <h1 className="hero-title">
               Learn Any<br/>Language with<br/>
