@@ -219,7 +219,9 @@ function ProgramDetail() {
             <p className="cert-sub">Signed, dated, and shipped to you on completion.</p>
             <div className="cert-stage">
               {program.certificate_sample_url ? (
-                <img src={program.certificate_sample_url} alt="Certificate sample" style={{ maxWidth: "100%", borderRadius: 10, boxShadow: "0 22px 44px rgba(74,34,224,.22)" }} />
+                <div style={{ width: "100%", maxWidth: 460, aspectRatio: "1.42/1", borderRadius: 10, overflow: "hidden", boxShadow: "0 22px 44px rgba(74,34,224,.22)" }}>
+                  <img src={program.certificate_sample_url} alt="Certificate sample" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
               ) : (
                 <div className="certificate">
                   <div className="cert-inner">

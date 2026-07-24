@@ -23,17 +23,14 @@ function TicketCard({ p }) {
   return (
     <Link to={`/programs/${p.slug}`} className="ticket">
       {hasDiscount && <div className="ticket-stamp">SAVE {Math.round((1 - p.discount_price / p.full_fee) * 100)}%</div>}
-      <div className={`ticket-stub-top${hasImage ? " has-image" : ""}`} style={bannerStyle}>
-        {hasImage && <div className="ticket-img-overlay" />}
-        <div className="ticket-route">
-          <div className="ticket-route-pt"><small>Language</small><b>{p.language}</b></div>
-          <div className="ticket-route-icon">✈</div>
-          <div className="ticket-route-pt" style={{ textAlign: "right" }}><small>Level</small><b>{p.level_code || "—"}</b></div>
-        </div>
-        <div className="ticket-flag">{LANG_FLAGS[p.language] || "🌐"}</div>
-      </div>
+      <div className={`ticket-stub-top${hasImage ? " has-image" : ""}`} style={bannerStyle} />
       <div className="ticket-perf" />
       <div className="ticket-body">
+        <div className="ticket-info-row">
+          <span className="ticket-info-flag">{LANG_FLAGS[p.language] || "🌐"}</span>
+          <span className="ticket-info-lang">{p.language}</span>
+          {p.level_code && <span className="ticket-info-level">{p.level_code}</span>}
+        </div>
         <div className="demo-pill">✓ Demo class available</div>
         <h3>{p.title}</h3>
         <p>{p.short_description}</p>
