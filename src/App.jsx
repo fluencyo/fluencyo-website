@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import ChatWidget from "./components/ChatWidget";
 import Home from "./pages/Home";
 import Programs from "./pages/Programs";
 import ProgramDetail from "./pages/ProgramDetail";
@@ -16,6 +17,7 @@ function App() {
         <Route path="/programs/:slug" element={<ProgramDetail />} />
       </Routes>
       <Footer />
+      <ChatWidget />
     </>
   );
 }
