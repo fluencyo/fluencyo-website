@@ -4,9 +4,10 @@ import "./Programs.css";
 
 const API_URL = process.env.REACT_APP_API_URL || "https://api.fluencyo.com/api";
 
-const SAMPLE_SLOTS = [
-  { day: "Mon", time: "6:00 PM" }, { day: "Mon", time: "8:00 PM" }, { day: "Wed", time: "7:00 PM" },
-  { day: "Thu", time: "6:30 PM" }, { day: "Sat", time: "11:00 AM" }, { day: "Sat", time: "4:00 PM" },
+const TIME_GROUPS = [
+  { label: "Morning", slots: ["6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"] },
+  { label: "Afternoon", slots: ["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"] },
+  { label: "Evening", slots: ["7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"] },
 ];
 
 function getDeliverableMeta(text) {
@@ -22,16 +23,46 @@ function getDeliverableMeta(text) {
   return { icon: "✓", color: "rgba(107,43,224,.1)", sub: "Included with your program" };
 }
 
+function nextSevenDays() {
+  const days = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    days.push(d);
+  }
+  return days;
+}
+
+function fmtDay(d) {
+  return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+}
+function isoDate(d) {
+  return d.toISOString().split("T")[0];
+}
+
 function LeadForm({ program, planType, price, onClose }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", country: "" });
-  const [slot, setSlot] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
   const [credentials, setCredentials] = useState(null);
 
+  // Demo-only: pick a real date within the next 7 days
+  const days = nextSevenDays();
+  const [selectedDate, setSelectedDate] = useState(isoDate(days[0]));
+
+  // Full-course-only: weekend or daily
+  const [scheduleType, setScheduleType] = useState(null);
+
+  // Shared: a fixed time bucket
+  const [selectedTime, setSelectedTime] = useState(null);
+
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-  const canSubmit = form.name.trim() && form.email.trim() && form.phone.trim();
+
+  const canSubmit =
+    form.name.trim() && form.email.trim() && form.phone.trim() && selectedTime &&
+    (planType === "trial" ? !!selectedDate : !!scheduleType);
 
   const submit = async () => {
     if (!canSubmit) return;
@@ -46,10 +77,15 @@ function LeadForm({ program, planType, price, onClose }) {
           program_id: program.id,
           program_slug: program.slug,
           plan_type: planType,
-          selected_slot: `${SAMPLE_SLOTS[slot].day} ${SAMPLE_SLOTS[slot].time}`,
+          preferred_time: selectedTime,
+          preferred_date: planType === "trial" ? selectedDate : undefined,
+          schedule_type: planType === "full" ? scheduleType : undefined,
         }),
       });
-      if (!leadRes.ok) throw new Error("Could not save your details");
+      if (!leadRes.ok) {
+        const errData = await leadRes.json().catch(() => ({}));
+        throw new Error(errData.error || "Could not save your details");
+      }
       const leadData = await leadRes.json();
       const leadId = leadData.leadId;
 
@@ -95,9 +131,7 @@ function LeadForm({ program, planType, price, onClose }) {
             setSubmitting(false);
           }
         },
-        modal: {
-          ondismiss: () => setSubmitting(false),
-        },
+        modal: { ondismiss: () => setSubmitting(false) },
       });
       rzp.open();
     } catch (err) {
@@ -128,14 +162,54 @@ function LeadForm({ program, planType, price, onClose }) {
               <div className="lead-field"><label>Phone</label><input value={form.phone} onChange={update("phone")} placeholder="+91 98765 43210" /></div>
               <div className="lead-field"><label>Country</label><input value={form.country} onChange={update("country")} placeholder="India" /></div>
 
-              <div className="modal-section-h">Pick a Departure Time</div>
-              <div className="modal-slot-grid">
-                {SAMPLE_SLOTS.map((s, i) => (
-                  <div key={i} className={`modal-slot${slot === i ? " selected" : ""}`} onClick={() => setSlot(i)}>
-                    <small>{s.day}</small><b>{s.time}</b>
+              {planType === "trial" ? (
+                <>
+                  <div className="modal-section-h">Pick a Date (within the next 7 days)</div>
+                  <div className="modal-slot-grid">
+                    {days.map((d, i) => {
+                      const iso = isoDate(d);
+                      return (
+                        <div key={i} className={`modal-slot${selectedDate === iso ? " selected" : ""}`} onClick={() => setSelectedDate(iso)}>
+                          <small>{fmtDay(d).split(",")[0]}</small><b>{fmtDay(d).split(", ")[1]}</b>
+                        </div>
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
+                </>
+              ) : (
+                <>
+                  <div className="modal-section-h">Weekend or Daily Classes?</div>
+                  <div className="modal-slot-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                    <div className={`modal-slot${scheduleType === "weekend" ? " selected" : ""}`} onClick={() => setScheduleType("weekend")}>
+                      <b>Weekends</b>
+                    </div>
+                    <div className={`modal-slot${scheduleType === "daily" ? " selected" : ""}`} onClick={() => setScheduleType("daily")}>
+                      <b>Daily</b>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6, marginBottom: 4 }}>
+                    Once confirmed, your schedule can't be changed later — pick what genuinely works for you.
+                  </p>
+                </>
+              )}
+
+              {(planType === "trial" || scheduleType) && (
+                <>
+                  <div className="modal-section-h">Pick a Time</div>
+                  {TIME_GROUPS.map((group) => (
+                    <div key={group.label} style={{ marginBottom: 10 }}>
+                      <div style={{ fontSize: 10.5, fontWeight: 800, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 6 }}>{group.label}</div>
+                      <div className="modal-slot-grid">
+                        {group.slots.map((t) => (
+                          <div key={t} className={`modal-slot${selectedTime === t ? " selected" : ""}`} onClick={() => setSelectedTime(t)}>
+                            <b>{t}</b>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
 
               {error && <p style={{ color: "#E11D48", fontSize: 12.5, marginTop: 10 }}>{error}</p>}
               <button className="btn3d btn-violet lead-submit" disabled={!canSubmit || submitting} onClick={submit}>
