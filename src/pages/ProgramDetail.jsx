@@ -28,6 +28,7 @@ function LeadForm({ program, planType, price, onClose }) {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [credentials, setCredentials] = useState(null);
 
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const canSubmit = form.name.trim() && form.email.trim() && form.phone.trim();
@@ -37,7 +38,6 @@ function LeadForm({ program, planType, price, onClose }) {
     setSubmitting(true);
     setError("");
     try {
-      // Step 1: create the lead, same as before
       const leadRes = await fetch(`${API_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,7 +53,6 @@ function LeadForm({ program, planType, price, onClose }) {
       const leadData = await leadRes.json();
       const leadId = leadData.leadId;
 
-      // Step 2: create a real Razorpay order for this lead
       const orderRes = await fetch(`${API_URL}/payments/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,7 +61,6 @@ function LeadForm({ program, planType, price, onClose }) {
       if (!orderRes.ok) throw new Error("Could not start payment");
       const orderData = await orderRes.json();
 
-      // Step 3: open Razorpay's real checkout popup
       const rzp = new window.Razorpay({
         key: orderData.keyId,
         amount: orderData.amount,
@@ -85,6 +83,11 @@ function LeadForm({ program, planType, price, onClose }) {
               }),
             });
             if (!verifyRes.ok) throw new Error("Verification failed");
+            const verifyData = await verifyRes.json();
+            setCredentials({
+              email: verifyData.loginEmail || form.email,
+              password: verifyData.defaultPassword || "fluencyo@123",
+            });
             setDone(true);
           } catch {
             setError("Payment succeeded but verification failed — contact support with your payment ID.");
@@ -115,7 +118,13 @@ function LeadForm({ program, planType, price, onClose }) {
             </div>
             <div className="lead-body">
               <div className="lead-field"><label>Full Name</label><input value={form.name} onChange={update("name")} placeholder="Your name" /></div>
-              <div className="lead-field"><label>Email</label><input value={form.email} onChange={update("email")} placeholder="you@example.com" type="email" /></div>
+              <div className="lead-field">
+                <label>Email</label>
+                <input value={form.email} onChange={update("email")} placeholder="you@example.com" type="email" />
+                <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.5 }}>
+                  This will be your login for the Fluencyo learning portal — double-check it's correct.
+                </div>
+              </div>
               <div className="lead-field"><label>Phone</label><input value={form.phone} onChange={update("phone")} placeholder="+91 98765 43210" /></div>
               <div className="lead-field"><label>Country</label><input value={form.country} onChange={update("country")} placeholder="India" /></div>
 
@@ -137,9 +146,20 @@ function LeadForm({ program, planType, price, onClose }) {
         ) : (
           <div className="lead-body lead-success">
             <div className="lead-success-icon">🎉</div>
-            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 19, fontWeight: 900, marginBottom: 8 }}>Payment successful!</h3>
-            <p style={{ fontSize: 13.5, color: "var(--ink-soft)", marginBottom: 16 }}>Check your email — we've sent your welcome message with a link to set up your Fluencyo account.</p>
-            <button className="btn3d btn-violet lead-submit" onClick={onClose}>Done</button>
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 900, marginBottom: 6 }}>Hurray! You've made a great decision.</h3>
+            <p style={{ fontSize: 13.5, color: "var(--ink-soft)", marginBottom: 20 }}>Welcome to Fluencyo — your learning journey starts now. Here's how to get in:</p>
+            <div style={{ background: "#F7F5FF", border: "1.5px solid #ECE7F8", borderRadius: 14, padding: "18px 20px", textAlign: "left", marginBottom: 20 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 800, color: "#9C93B5", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 4 }}>Login Email</div>
+              <div style={{ fontSize: 14.5, fontWeight: 800, color: "#150636", marginBottom: 14 }}>{credentials?.email}</div>
+              <div style={{ fontSize: 10.5, fontWeight: 800, color: "#9C93B5", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 4 }}>Password</div>
+              <div style={{ fontSize: 14.5, fontWeight: 800, color: "#150636", fontFamily: "monospace" }}>{credentials?.password}</div>
+              <div style={{ fontSize: 11, color: "#9C93B5", marginTop: 12, lineHeight: 1.5 }}>
+                You can change this anytime from the LMS using "Forgot Password."
+              </div>
+            </div>
+            <a href="https://lms.fluencyo.com" className="btn3d btn-violet lead-submit" style={{ display: "block", textAlign: "center", textDecoration: "none" }}>
+              Continue to LMS →
+            </a>
           </div>
         )}
       </div>
