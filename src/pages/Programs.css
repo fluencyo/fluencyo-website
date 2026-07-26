@@ -62,6 +62,7 @@
 .cat-4 { background: linear-gradient(150deg, #E11D48, #E879F9); }
 .cat-5 { background: linear-gradient(150deg, #B8860B, #FFD24C); }
 .cat-6 { background: linear-gradient(150deg, #16A34A, #4ADE80); }
+.cat-7 { background: linear-gradient(150deg, #EA580C, #FB923C); }
 
 /* ===== FILTERS ===== */
 .filters { display: flex; justify-content: center; gap: 10px; margin: 40px 0 8px; flex-wrap: wrap; }

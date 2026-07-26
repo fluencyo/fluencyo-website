@@ -51,6 +51,7 @@ const CATEGORY_TILES = [
   { key: "1:1 Tutoring", cls: "cat-4", icon: "👨‍👩‍👧", title: "1:1 Tutoring", sub: "Daily, weekly, or monthly — for every age." },
   { key: "Courses for NRIs", cls: "cat-5", icon: "🌍", title: "Courses for NRIs", sub: "Language and culture training tailored for NRIs abroad." },
   { key: "General Language Programs", cls: "cat-6", icon: "💬", title: "General Language Programs", sub: "Everyday conversational fluency, at your own pace." },
+  { key: "Indian Language Programs", cls: "cat-7", icon: "🇮🇳", title: "Indian Language Programs", sub: "Hindi, Telugu, Tamil, and more — for learners of all backgrounds." },
 ];
 
 function Programs() {
