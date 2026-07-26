@@ -265,153 +265,206 @@ function ProgramDetail() {
 
   const isPartner = program.source_type === "partner";
   const hasDiscount = program.discount_price && program.discount_price < program.full_fee;
+  const displayPrice = hasDiscount ? program.discount_price : program.full_fee;
+
+  const scrollToPricing = (e) => {
+    e.preventDefault();
+    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div className="programs-page">
-      <div className="container detail-wrap">
-        <Link to="/programs" className="pd-back">← All Programs</Link>
+      <div className="sticky-bar">
+        <div>
+          <div className="sticky-bar-title">{program.title}</div>
+          <div className="sticky-bar-sub">Trial from ₹{program.trial_fee} · Full program ₹{program.full_fee}</div>
+        </div>
+        <div className="sticky-bar-actions">
+          <button className="btn-3d btn-ghost" onClick={() => setLeadModal({ planType: "trial", price: program.trial_fee })}>Try the Demo</button>
+          <button className="btn-3d btn-gold" onClick={() => setLeadModal({ planType: "full", price: displayPrice })}>Enroll Now</button>
+        </div>
+      </div>
 
-        <div className="journey-card">
-          {program.image_url && (
-            <img src={program.image_url} alt={program.title} className="journey-banner-photo" />
-          )}
-          <div className="journey-card-content">
-            <div className="journey-top">
-              <div className="journey-tags">
-                <div className="journey-tag">{program.language}</div>
-                {program.level_code && <div className="journey-tag">{program.level_code}</div>}
-                {isPartner && <div className="journey-tag">Certified by {program.partner_name}</div>}
-              </div>
-              <div className="journey-code">TICKET · {program.slug.toUpperCase()}</div>
-            </div>
-            <div className="journey-route">
-              <div className="journey-pt"><small>Language</small><b>{program.language}</b></div>
-              <div className="journey-line"><div className="dash" /><span>✈</span></div>
-              <div className="journey-pt" style={{ textAlign: "right" }}><small>Certify</small><b>{program.level_code || "Completion"}</b></div>
-            </div>
-            <div className="journey-title">{program.title}</div>
-            <div className="journey-desc">{program.full_description}</div>
-          </div>
+      <div className="hero-wrap">
+        <Link to="/programs" className="back-link">← All Programs</Link>
+
+        <div className="hero-photo-frame">
+          {program.image_url && <img src={program.image_url} alt={program.title} />}
+          <div className="hero-photo-badge"><span className="dot" /> Live 1-on-1 sessions</div>
         </div>
 
+        <div className="info-section">
+          <div className="info-tags">
+            <div className="info-tag">{program.language}</div>
+            {program.level_code && <div className="info-tag">{program.level_code}</div>}
+            {isPartner && <div className="info-tag">Certified by {program.partner_name}</div>}
+          </div>
+          <div className="info-title">{program.title}</div>
+          <div className="info-desc">{program.full_description}</div>
+          <div className="info-cta-row">
+            <a href="#pricing" className="cta-primary" onClick={scrollToPricing}>
+              Enroll Now<small>From ₹{displayPrice}</small>
+            </a>
+            <a href="#pricing" className="cta-ghost" onClick={scrollToPricing}>Try a Demo Class</a>
+          </div>
+          <div className="stat-bar">
+            <div className="stat-cell"><b>{program.duration_weeks} Weeks</b><span>Program Length</span></div>
+            <div className="stat-cell"><b>Daily or Weekend</b><span>Schedule Type</span></div>
+            <div className="stat-cell"><b>Beginner–Advanced</b><span>All Levels Welcome</span></div>
+            <div className="stat-cell"><b>1:1 Live</b><span>Coaching Format</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="content-wrap">
+
         {program.description_2 && (
-          <div className="content-section">
-            <h2>More About This Program</h2>
-            <p>{program.description_2}</p>
+          <div className="section">
+            <div className="section-inner">
+              <span className="eyebrow">The Full Picture</span>
+              <h2>What actually happens in this program</h2>
+              <p className="lead">{program.description_2}</p>
+            </div>
           </div>
         )}
 
         {program.benefits && program.benefits.length > 0 && (
-          <div className="content-section">
-            <h2>Why Learn With Us</h2>
-            <div className="bullet-grid">
-              {program.benefits.map((b, i) => (
-                <div key={i} className="bullet-item"><span className="dot" />{b}</div>
-              ))}
+          <div className="section">
+            <div className="section-inner wide">
+              <span className="eyebrow">Why It Works</span>
+              <h2>Built around how fluency actually develops</h2>
+              <div className="bullet-grid">
+                {program.benefits.map((b, i) => (
+                  <div className="bullet-item" key={i}>
+                    <div className="num">{String(i + 1).padStart(2, "0")}</div>
+                    <p>{b}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
         {program.opportunities && program.opportunities.length > 0 && (
-          <div className="content-section">
-            <h2>Opportunities This Opens</h2>
-            <div className="bullet-grid">
-              {program.opportunities.map((o, i) => (
-                <div key={i} className="bullet-item"><span className="dot" />{o}</div>
-              ))}
+          <div className="section">
+            <div className="section-inner wide">
+              <span className="eyebrow">Where This Takes You</span>
+              <h2>Opportunities this program opens up</h2>
+              <div className="bullet-grid">
+                {program.opportunities.map((o, i) => (
+                  <div className="bullet-item" key={i}>
+                    <div className="num">→</div>
+                    <p>{o}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        <div className="deliverables-cert-grid">
-          <div className="deliverables-col">
-            <h3>What You Get</h3>
-            <div className="deliverables-grid">
-              {(program.includes || []).map((item, i) => {
-                const meta = getDeliverableMeta(item);
-                return (
-                  <div className="deliverable-card" key={i}>
-                    <div className="deliverable-icon" style={{ background: meta.color }}>{meta.icon}</div>
-                    <div>
-                      <div className="deliverable-title">{item}</div>
-                      <div className="deliverable-sub">{meta.sub}</div>
+        {program.includes && program.includes.length > 0 && (
+          <div className="section">
+            <div className="section-inner wide">
+              <span className="eyebrow">Everything Included</span>
+              <h2>What you get with this program</h2>
+              <div className="includes-grid">
+                {program.includes.map((item, i) => {
+                  const meta = getDeliverableMeta(item);
+                  return (
+                    <div className="include-card" key={i}>
+                      <div className="include-icon">{meta.icon}</div>
+                      <b>{item}</b>
+                      <span>{meta.sub}</span>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="cert-col">
-            <h3>Your Certificate</h3>
-            <p className="cert-sub">Signed, dated, and shipped to you on completion.</p>
-            <div className="cert-stage">
-              {program.certificate_sample_url ? (
-                <div style={{ width: "100%", maxWidth: 460, aspectRatio: "1.42/1", borderRadius: 10, overflow: "hidden", boxShadow: "0 22px 44px rgba(74,34,224,.22)" }}>
-                  <img src={program.certificate_sample_url} alt="Certificate sample" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-              ) : (
-                <div className="certificate">
-                  <div className="cert-inner">
-                    <div className="cert-eyebrow">CERTIFICATE OF COMPLETION</div>
-                    <h4>This certifies that</h4>
-                    <div className="cert-name">Your Name Here</div>
-                    <div className="cert-body-text">has successfully completed the one-on-one training program in</div>
-                    <div className="cert-program">{program.title} — Fluencyo</div>
-                    <div className="cert-foot">
-                      <div className="cert-sig">Program Director<small>Signature</small></div>
-                      <div className="cert-seal">🏆</div>
-                      <div className="cert-sig">Issue Date<small>On Completion</small></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="pricing-head">
-          <h3>Choose Your Pass</h3>
-          <p>Not sure yet? Start with the demo — no commitment.</p>
-        </div>
-        <div className="passes">
-          <div className="pass demo">
-            <div className="pass-head">
-              <div className="pass-class">Day Pass</div>
-              <div className="pass-name">Demo Class</div>
-              <div className="pass-sub">1 hour, no commitment</div>
-            </div>
-            <div className="pass-perf" />
-            <div className="pass-stub">
-              <div className="pass-price-row"><span className="pass-price">₹{program.trial_fee}</span></div>
-              <div className="pass-barcode" />
-              <button className="btn3d btn-violet" onClick={() => setLeadModal({ planType: "trial", price: program.trial_fee })}>Book Demo</button>
-            </div>
-          </div>
-          <div className="pass full">
-            <div className="pass-head">
-              <div className="pass-class">Season Pass</div>
-              <div className="pass-name">Full Program</div>
-              <div className="pass-sub">{program.duration_weeks} weeks, lifetime access</div>
-            </div>
-            <div className="pass-perf" />
-            <div className="pass-stub">
-              {hasDiscount && <div className="pass-sale">SAVE {Math.round((1 - program.discount_price / program.full_fee) * 100)}%</div>}
-              <div className="pass-price-row">
-                <span className="pass-price">₹{hasDiscount ? program.discount_price : program.full_fee}</span>
-                {hasDiscount && <span className="pass-strike">₹{program.full_fee}</span>}
+                  );
+                })}
               </div>
-              {hasDiscount && <div className="pass-save">Save ₹{program.full_fee - program.discount_price}</div>}
-              <div className="pass-barcode" />
-              <button
-                className="btn3d btn-gold"
-                onClick={() => setLeadModal({ planType: "full", price: hasDiscount ? program.discount_price : program.full_fee })}
-              >
-                Enroll Now
-              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="section">
+          <div className="section-inner wide">
+            <span className="eyebrow">Proof You Can Show</span>
+            <h2>Your certificate</h2>
+            <div className="cert-row">
+              <p className="lead" style={{ maxWidth: "none" }}>
+                A real, signed certificate — not a generic PDF. Issued in your name on completion, with a verifiable ID, and shipped as a physical copy to your address.
+              </p>
+              <div className="cert-frame">
+                {program.certificate_sample_url ? (
+                  <div className="certificate" style={{ padding: 0 }}>
+                    <img
+                      src={program.certificate_sample_url}
+                      alt="Certificate sample"
+                      style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }}
+                    />
+                  </div>
+                ) : (
+                  <div className="certificate">
+                    <div className="cert-inner">
+                      <div className="cert-eyebrow">CERTIFICATE OF COMPLETION</div>
+                      <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>This certifies that</div>
+                      <div className="cert-name">Your Name Here</div>
+                      <div className="cert-sub-text">has successfully completed {program.title} — Fluencyo</div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
+        <div id="pricing" className="pricing-head">
+          <h2>Ready to start?</h2>
+          <p>Try a real class first — no risk, no pressure. Upgrade whenever you're ready.</p>
+        </div>
+
+        <div className="passes">
+          <div className="pass pass-demo">
+            <div className="pass-name">Demo Class</div>
+            <div className="pass-price-row">
+              <span className="pass-price">₹{program.trial_fee}</span>
+              <span className="pass-price-unit">one-time</span>
+            </div>
+            <div className="pass-desc">
+              Best for anyone who wants to try a real session before committing — meet your tutor, feel the coaching style.
+            </div>
+            <div className="pass-features">
+              <div className="pass-feature"><span className="check-circle">✓</span> One live 1-on-1 session</div>
+              <div className="pass-feature"><span className="check-circle">✓</span> Meet a real certified tutor</div>
+              <div className="pass-feature"><span className="check-circle">✓</span> Full LMS access for the class</div>
+              <div className="pass-feature"><span className="check-circle">✓</span> Zero commitment after</div>
+            </div>
+            <button className="pass-btn" onClick={() => setLeadModal({ planType: "trial", price: program.trial_fee })}>
+              Book Your Demo →
+            </button>
+            <div className="pass-note">No card needed for the demo</div>
+          </div>
+
+          <div className="pass pass-full">
+            <div className="recommended-tag"><span className="star">⭐</span> Recommended</div>
+            <div className="pass-name">Full Program</div>
+            <div className="pass-price-row">
+              <span className="pass-price">₹{displayPrice}</span>
+              {hasDiscount && <span className="pass-strike">₹{program.full_fee}</span>}
+            </div>
+            <div className="pass-desc">
+              Best for learners ready to commit to real, structured progress — everything you need, start to certificate.
+            </div>
+            <div className="pass-features">
+              <div className="pass-feature"><span className="check-circle">✓</span> {program.duration_weeks} weeks of live 1-on-1 coaching</div>
+              <div className="pass-feature"><span className="check-circle">✓</span> Weekly mock tests & feedback</div>
+              <div className="pass-feature"><span className="check-circle">✓</span> All class recordings, lifetime app access</div>
+              <div className="pass-feature"><span className="check-circle">✓</span> Real, signed certificate on completion</div>
+            </div>
+            <button className="pass-btn" onClick={() => setLeadModal({ planType: "full", price: displayPrice })}>
+              Enroll Now →
+            </button>
+            <div className="pass-note">Already did the demo? This upgrades you instantly</div>
+          </div>
+        </div>
+
       </div>
 
       {leadModal && (
