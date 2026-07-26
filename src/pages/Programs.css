@@ -87,7 +87,7 @@
 .carousel-wrap { position: relative; }
 .carousel-viewport { overflow: hidden; width: 100%; }
 .carousel-track { display: flex; transition: transform .5s cubic-bezier(.22,1,.36,1); }
-.carousel-page { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; flex-shrink: 0; width: 100%; }
+.carousel-page { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; flex: 0 0 100%; width: 100%; box-sizing: border-box; }
 @media (max-width: 1200px) { .carousel-page { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 860px) { .carousel-page { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .carousel-page { grid-template-columns: 1fr; } }
