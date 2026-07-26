@@ -71,13 +71,15 @@ function Programs() {
   }, []);
 
   const realCategories = [...new Set(programs.map((p) => p.category))];
+  const realLanguages = [...new Set(programs.map((p) => p.language))];
 
   const filtered = programs.filter((p) => {
     const matchesCategory = categoryFilter === "All" || p.category === categoryFilter;
+    const matchesLanguage = languageFilter === "All" || p.language === languageFilter;
     const matchesSearch = !search.trim() ||
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       p.language.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory && matchesLanguage && matchesSearch;
   });
 
   const fluencyoPrograms = filtered.filter((p) => p.source_type === "fluencyo");
