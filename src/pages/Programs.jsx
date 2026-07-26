@@ -11,6 +11,47 @@ const LANG_GRADIENTS = {
   Chinese: ["#E11D48", "#4A22CC"], Italian: ["#30D88A", "#2D0E7A"],
 };
 
+function ProgramCarousel({ programs, cardsPerPage = 4 }) {
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(programs.length / cardsPerPage);
+
+  useEffect(() => {
+    if (totalPages <= 1) return;
+    const interval = setInterval(() => {
+      setPage((p) => (p + 1) % totalPages);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [totalPages]);
+
+  const goTo = (dir) => {
+    setPage((p) => (p + dir + totalPages) % totalPages);
+  };
+
+  return (
+    <div className="carousel-wrap">
+      <button className="carousel-arrow carousel-arrow-left" onClick={() => goTo(-1)} aria-label="Previous">‹</button>
+      <div className="carousel-viewport">
+        <div className="carousel-track" style={{ transform: `translateX(-${page * 100}%)` }}>
+          {Array.from({ length: totalPages }).map((_, pageIndex) => (
+            <div className="carousel-page" key={pageIndex}>
+              {programs.slice(pageIndex * cardsPerPage, pageIndex * cardsPerPage + cardsPerPage).map((p) => (
+                <TicketCard key={p.id} p={p} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <button className="carousel-arrow carousel-arrow-right" onClick={() => goTo(1)} aria-label="Next">›</button>
+      {totalPages > 1 && (
+        <div className="carousel-dots">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <div key={i} className={`carousel-dot${i === page ? " active" : ""}`} onClick={() => setPage(i)} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 function TicketCard({ p }) {
   const [g1, g2] = LANG_GRADIENTS[p.language] || ["#4A22CC", "#6B2BE0"];
   const hasImage = !!p.image_url;
@@ -145,13 +186,7 @@ function Programs() {
                     {fluencyoPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
                   </div>
                 ) : (
-                  <div className="marquee-wrap">
-                    <div className="marquee-track">
-                      {[...fluencyoPrograms, ...fluencyoPrograms].map((p, i) => (
-                        <div className="marquee-card" key={`${p.id}-${i}`}><TicketCard p={p} /></div>
-                      ))}
-                    </div>
-                  </div>
+                  <ProgramCarousel programs={fluencyoPrograms} />
                 )}
                 {fluencyoPrograms.length > 4 && (
                   <button className="show-more-btn" onClick={() => setFluencyoExpanded((v) => !v)}>
@@ -172,13 +207,7 @@ function Programs() {
                     {partnerPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
                   </div>
                 ) : (
-                  <div className="marquee-wrap">
-                    <div className="marquee-track marquee-reverse">
-                      {[...partnerPrograms, ...partnerPrograms].map((p, i) => (
-                        <div className="marquee-card" key={`${p.id}-${i}`}><TicketCard p={p} /></div>
-                      ))}
-                    </div>
-                  </div>
+                  <ProgramCarousel programs={partnerPrograms} />
                 )}
                 {partnerPrograms.length > 4 && (
                   <button className="show-more-btn" onClick={() => setPartnerExpanded((v) => !v)}>
