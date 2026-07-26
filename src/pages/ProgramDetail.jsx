@@ -271,7 +271,14 @@ function ProgramDetail() {
       <div className="container detail-wrap">
         <Link to="/programs" className="pd-back">← All Programs</Link>
 
-        <div className="journey-card">
+        <div
+          className="journey-card"
+          style={program.image_url ? {
+            backgroundImage: `linear-gradient(rgba(10,5,30,.55), rgba(10,5,30,.75)), url(${program.image_url})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          } : undefined}
+        >
           <div className="journey-top">
             <div className="journey-tags">
               <div className="journey-tag">{program.language}</div>
