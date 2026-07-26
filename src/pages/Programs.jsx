@@ -118,21 +118,11 @@ function Programs() {
           </div>
         </div>
 
-        {realCategories.length > 1 && (
-          <div className="filters">
-            <div className={`filter-stamp${categoryFilter === "All" ? " active" : ""}`} onClick={() => setCategoryFilter("All")}>All</div>
-            {realCategories.map((c) => (
-              <div key={c} className={`filter-stamp${categoryFilter === c ? " active" : ""}`} onClick={() => setCategoryFilter(c)}>{c}</div>
-            ))}
-          </div>
-        )}
         {realLanguages.length > 1 && (
-          <div className="filters" style={{ marginTop: 10 }}>
-            <div className={`filter-stamp${languageFilter === "All" ? " active" : ""}`} onClick={() => setLanguageFilter("All")}>🌐 All Languages</div>
+          <div className="lang-filter-row">
+            <button className={`lang-pill${languageFilter === "All" ? " active" : ""}`} onClick={() => setLanguageFilter("All")}>All Programs</button>
             {realLanguages.map((lang) => (
-              <div key={lang} className={`filter-stamp${languageFilter === lang ? " active" : ""}`} onClick={() => setLanguageFilter(lang)}>
-                {LANG_FLAGS[lang] || "🌐"} {lang}
-              </div>
+              <button key={lang} className={`lang-pill${languageFilter === lang ? " active" : ""}`} onClick={() => setLanguageFilter(lang)}>{lang}</button>
             ))}
           </div>
         )}

@@ -65,10 +65,10 @@
 .cat-7 { background: linear-gradient(150deg, #EA580C, #FB923C); }
 
 /* ===== FILTERS ===== */
-.filters { display: flex; justify-content: center; gap: 10px; margin: 40px 0 8px; flex-wrap: wrap; }
-.filter-stamp { font-family: var(--f-mono); font-size: 12px; font-weight: 700; padding: 9px 18px; border-radius: 10px; border: 1.5px solid var(--paper-line); border-bottom-width: 3px; background: #fff; cursor: pointer; transition: .15s; letter-spacing: .03em; }
-.filter-stamp:active { transform: translateY(2px); border-bottom-width: 1.5px; }
-.filter-stamp.active { border-color: var(--purple-bright); color: var(--purple-bright); background: rgba(107,43,224,.06); }
+.lang-filter-row { display: flex; justify-content: center; gap: 8px; margin: 40px 0 8px; flex-wrap: wrap; }
+.lang-pill { font-family: var(--font-body); font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 100px; border: 1.5px solid var(--paper-line); background: #fff; color: var(--ink-soft); cursor: pointer; transition: .15s; }
+.lang-pill:hover { border-color: var(--purple-bright); color: var(--purple-bright); }
+.lang-pill.active { background: var(--purple-bright); border-color: var(--purple-bright); color: #fff; }
 
 /* ===== TICKET GRID ===== */
 .group { padding: 48px 0; }
