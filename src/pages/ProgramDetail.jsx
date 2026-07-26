@@ -271,30 +271,57 @@ function ProgramDetail() {
       <div className="container detail-wrap">
         <Link to="/programs" className="pd-back">← All Programs</Link>
 
-        <div
-          className="journey-card"
-          style={program.image_url ? {
-            backgroundImage: `linear-gradient(rgba(10,5,30,.55), rgba(10,5,30,.75)), url(${program.image_url})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          } : undefined}
-        >
-          <div className="journey-top">
-            <div className="journey-tags">
-              <div className="journey-tag">{program.language}</div>
-              {program.level_code && <div className="journey-tag">{program.level_code}</div>}
-              {isPartner && <div className="journey-tag">Certified by {program.partner_name}</div>}
+        <div className="journey-card">
+          {program.image_url && (
+            <img src={program.image_url} alt={program.title} className="journey-banner-photo" />
+          )}
+          <div className="journey-card-content">
+            <div className="journey-top">
+              <div className="journey-tags">
+                <div className="journey-tag">{program.language}</div>
+                {program.level_code && <div className="journey-tag">{program.level_code}</div>}
+                {isPartner && <div className="journey-tag">Certified by {program.partner_name}</div>}
+              </div>
+              <div className="journey-code">TICKET · {program.slug.toUpperCase()}</div>
             </div>
-            <div className="journey-code">TICKET · {program.slug.toUpperCase()}</div>
+            <div className="journey-route">
+              <div className="journey-pt"><small>Language</small><b>{program.language}</b></div>
+              <div className="journey-line"><div className="dash" /><span>✈</span></div>
+              <div className="journey-pt" style={{ textAlign: "right" }}><small>Certify</small><b>{program.level_code || "Completion"}</b></div>
+            </div>
+            <div className="journey-title">{program.title}</div>
+            <div className="journey-desc">{program.full_description}</div>
           </div>
-          <div className="journey-route">
-            <div className="journey-pt"><small>Language</small><b>{program.language}</b></div>
-            <div className="journey-line"><div className="dash" /><span>✈</span></div>
-            <div className="journey-pt" style={{ textAlign: "right" }}><small>Certify</small><b>{program.level_code || "Completion"}</b></div>
-          </div>
-          <div className="journey-title">{program.title}</div>
-          <div className="journey-desc">{program.full_description}</div>
         </div>
+
+        {program.description_2 && (
+          <div className="content-section">
+            <h2>More About This Program</h2>
+            <p>{program.description_2}</p>
+          </div>
+        )}
+
+        {program.benefits && program.benefits.length > 0 && (
+          <div className="content-section">
+            <h2>Why Learn With Us</h2>
+            <div className="bullet-grid">
+              {program.benefits.map((b, i) => (
+                <div key={i} className="bullet-item"><span className="dot" />{b}</div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {program.opportunities && program.opportunities.length > 0 && (
+          <div className="content-section">
+            <h2>Opportunities This Opens</h2>
+            <div className="bullet-grid">
+              {program.opportunities.map((o, i) => (
+                <div key={i} className="bullet-item"><span className="dot" />{o}</div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="deliverables-cert-grid">
           <div className="deliverables-col">
