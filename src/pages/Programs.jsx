@@ -59,6 +59,7 @@ function Programs() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
+  const [languageFilter, setLanguageFilter] = useState("All");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -127,6 +128,16 @@ function Programs() {
             <div className={`filter-stamp${categoryFilter === "All" ? " active" : ""}`} onClick={() => setCategoryFilter("All")}>All</div>
             {realCategories.map((c) => (
               <div key={c} className={`filter-stamp${categoryFilter === c ? " active" : ""}`} onClick={() => setCategoryFilter(c)}>{c}</div>
+            ))}
+          </div>
+        )}
+        {realLanguages.length > 1 && (
+          <div className="filters" style={{ marginTop: 10 }}>
+            <div className={`filter-stamp${languageFilter === "All" ? " active" : ""}`} onClick={() => setLanguageFilter("All")}>🌐 All Languages</div>
+            {realLanguages.map((lang) => (
+              <div key={lang} className={`filter-stamp${languageFilter === lang ? " active" : ""}`} onClick={() => setLanguageFilter(lang)}>
+                {LANG_FLAGS[lang] || "🌐"} {lang}
+              </div>
             ))}
           </div>
         )}
