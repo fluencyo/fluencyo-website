@@ -84,16 +84,18 @@
 @media (max-width: 560px) { .ticket-grid { grid-template-columns: 1fr; } }
 
 /* ===== PAGINATED CAROUSEL ===== */
-.carousel-wrap { position: relative; display: flex; align-items: center; gap: 12px; }
-.carousel-viewport { overflow: hidden; flex: 1; }
+.carousel-wrap { position: relative; }
+.carousel-viewport { overflow: hidden; width: 100%; }
 .carousel-track { display: flex; transition: transform .5s cubic-bezier(.22,1,.36,1); }
 .carousel-page { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; flex-shrink: 0; width: 100%; }
 @media (max-width: 1200px) { .carousel-page { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 860px) { .carousel-page { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .carousel-page { grid-template-columns: 1fr; } }
 
-.carousel-arrow { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--paper-line); background: #fff; color: var(--purple-bright); font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(74,34,224,.1); transition: .15s; }
+.carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--paper-line); background: #fff; color: var(--purple-bright); font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(74,34,224,.16); transition: .15s; }
 .carousel-arrow:hover { background: var(--purple-bright); color: #fff; border-color: var(--purple-bright); }
+.carousel-arrow-left { left: -23px; }
+.carousel-arrow-right { right: -23px; }
 
 .carousel-dots { position: absolute; bottom: -28px; left: 0; right: 0; display: flex; justify-content: center; gap: 7px; }
 .carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--paper-line); cursor: pointer; transition: .2s; }
