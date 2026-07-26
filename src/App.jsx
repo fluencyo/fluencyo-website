@@ -6,6 +6,7 @@ import ChatWidget from "./components/ChatWidget";
 import Home from "./pages/Home";
 import Programs from "./pages/Programs";
 import ProgramDetail from "./pages/ProgramDetail";
+import LegalPage from "./pages/LegalPage";
 
 function App() {
   return (
@@ -15,6 +16,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/programs" element={<Programs />} />
         <Route path="/programs/:slug" element={<ProgramDetail />} />
+        <Route path="/privacy-policy" element={<LegalPage />} />
+<Route path="/refund-policy" element={<LegalPage />} />
+<Route path="/terms-and-conditions" element={<LegalPage />} />
+<Route path="/terms-of-use" element={<LegalPage />} />
+<Route path="/privacy-policy" element={<LegalPage slug="privacy-policy" />} />
+<Route path="/refund-policy" element={<LegalPage slug="refund-policy" />} />
+<Route path="/terms-and-conditions" element={<LegalPage slug="terms-and-conditions" />} />
+<Route path="/terms-of-use" element={<LegalPage slug="terms-of-use" />} />
       </Routes>
       <Footer />
       <ChatWidget />

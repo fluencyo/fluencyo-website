@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import config from "../data/siteConfig";
 
 function Footer() {
@@ -34,10 +35,10 @@ function Footer() {
 
         <div className="footer-new-bottom">
           <div className="footer-policies">
-            <a href="/">Privacy Policy</a>
-            <a href="/">Refund Policy</a>
-            <a href="/">Terms and Conditions</a>
-            <a href="/">Terms of Use</a>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/refund-policy">Refund Policy</Link>
+            <Link to="/terms-and-conditions">Terms and Conditions</Link>
+            <Link to="/terms-of-use">Terms of Use</Link>
           </div>
           <p className="footer-copy">© {foundedYear} {companyName}. All rights reserved.</p>
         </div>
