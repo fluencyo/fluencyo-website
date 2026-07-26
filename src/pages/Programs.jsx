@@ -49,6 +49,7 @@ const CATEGORY_TILES = [
   { key: "Corporate Training", cls: "cat-2", icon: "🏢", title: "Corporate Training", sub: "Business & workplace English for teams." },
   { key: "University Partnership", cls: "cat-3", icon: "🏛️", title: "University Partnerships", sub: "Credit-bearing programs with partner institutes." },
   { key: "1:1 Tutoring", cls: "cat-4", icon: "👨‍👩‍👧", title: "1:1 Tutoring", sub: "Daily, weekly, or monthly — for every age." },
+  { key: "Courses for NRIs", cls: "cat-5", icon: "🌍", title: "Courses for NRIs", sub: "Language and culture training tailored for NRIs abroad." },
 ];
 
 function Programs() {
