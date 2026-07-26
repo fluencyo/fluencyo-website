@@ -309,9 +309,9 @@ function ProgramDetail() {
           </div>
           <div className="stat-bar">
             <div className="stat-cell"><b>{program.duration_weeks} Weeks</b><span>Program Length</span></div>
-            <div className="stat-cell"><b>Daily or Weekend</b><span>Schedule Type</span></div>
-            <div className="stat-cell"><b>Beginner–Advanced</b><span>All Levels Welcome</span></div>
-            <div className="stat-cell"><b>1:1 Live</b><span>Coaching Format</span></div>
+            <div className="stat-cell"><b>{program.schedule_type_label || "Flexible"}</b><span>Schedule Type</span></div>
+            <div className="stat-cell"><b>{program.level_label || "All Levels"}</b><span>Level</span></div>
+            <div className="stat-cell"><b>{program.coaching_format_label || "1:1 Live"}</b><span>Coaching Format</span></div>
           </div>
         </div>
       </div>
