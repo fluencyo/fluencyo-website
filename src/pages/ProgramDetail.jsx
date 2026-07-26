@@ -428,13 +428,15 @@ function ProgramDetail() {
               <span className="pass-price-unit">one-time</span>
             </div>
             <div className="pass-desc">
-              Best for anyone who wants to try a real session before committing — meet your tutor, feel the coaching style.
+              {program.demo_card_description || "Best for anyone who wants to try a real session before committing — meet your tutor, feel the coaching style."}
             </div>
             <div className="pass-features">
-              <div className="pass-feature"><span className="check-circle">✓</span> One live 1-on-1 session</div>
-              <div className="pass-feature"><span className="check-circle">✓</span> Meet a real certified tutor</div>
-              <div className="pass-feature"><span className="check-circle">✓</span> Full LMS access for the class</div>
-              <div className="pass-feature"><span className="check-circle">✓</span> Zero commitment after</div>
+              {(program.demo_card_features && program.demo_card_features.length > 0
+                ? program.demo_card_features
+                : ["One live 1-on-1 session", "Meet a real certified tutor", "Full LMS access for the class", "Zero commitment after"]
+              ).map((f, i) => (
+                <div key={i} className="pass-feature"><span className="check-circle">✓</span> {f}</div>
+              ))}
             </div>
             <button className="pass-btn" onClick={() => setLeadModal({ planType: "trial", price: program.trial_fee })}>
               Book Your Demo →
@@ -450,13 +452,15 @@ function ProgramDetail() {
               {hasDiscount && <span className="pass-strike">₹{program.full_fee}</span>}
             </div>
             <div className="pass-desc">
-              Best for learners ready to commit to real, structured progress — everything you need, start to certificate.
+              {program.full_card_description || "Best for learners ready to commit to real, structured progress — everything you need, start to certificate."}
             </div>
             <div className="pass-features">
-              <div className="pass-feature"><span className="check-circle">✓</span> {program.duration_weeks} weeks of live 1-on-1 coaching</div>
-              <div className="pass-feature"><span className="check-circle">✓</span> Weekly mock tests & feedback</div>
-              <div className="pass-feature"><span className="check-circle">✓</span> All class recordings, lifetime app access</div>
-              <div className="pass-feature"><span className="check-circle">✓</span> Real, signed certificate on completion</div>
+              {(program.full_card_features && program.full_card_features.length > 0
+                ? program.full_card_features
+                : [`${program.duration_weeks} weeks of live 1-on-1 coaching`, "Weekly mock tests & feedback", "All class recordings, lifetime app access", "Real, signed certificate on completion"]
+              ).map((f, i) => (
+                <div key={i} className="pass-feature"><span className="check-circle">✓</span> {f}</div>
+              ))}
             </div>
             <button className="pass-btn" onClick={() => setLeadModal({ planType: "full", price: displayPrice })}>
               Enroll Now →

@@ -13,10 +13,8 @@ const LANG_GRADIENTS = {
 
 function TicketCard({ p }) {
   const [g1, g2] = LANG_GRADIENTS[p.language] || ["#4A22CC", "#6B2BE0"];
-  const hasDiscount = p.discount_price && p.discount_price < p.full_fee;
   const hasImage = !!p.image_url;
   const providerName = p.source_type === "partner" ? (p.partner_name || "Partner") : "Fluencyo";
-  const displayPrice = hasDiscount ? p.discount_price : p.full_fee;
 
   const bannerStyle = hasImage
     ? { backgroundImage: `url(${p.image_url})` }
@@ -24,20 +22,14 @@ function TicketCard({ p }) {
 
   return (
     <Link to={`/programs/${p.slug}`} className="pcard">
-      {hasDiscount && <div className="pcard-save">SAVE {Math.round((1 - p.discount_price / p.full_fee) * 100)}%</div>}
-      <div className={`pcard-banner${hasImage ? " has-image" : ""}`} style={bannerStyle}>
-        <div className="pcard-lang-badge">
-          {LANG_FLAGS[p.language] || "🌐"} {p.language}{p.level_code ? ` · ${p.level_code}` : ""}
-        </div>
-      </div>
+      <div className={`pcard-banner${hasImage ? " has-image" : ""}`} style={bannerStyle} />
       <div className="pcard-body">
         <div className="pcard-provider">{providerName}</div>
         <h3 className="pcard-title">{p.title}</h3>
         <p className="pcard-desc">{p.short_description}</p>
-        <div className="pcard-demo-row">Try a 30-min demo — just <b>₹{p.trial_fee}</b></div>
         <div className="pcard-price-row">
-          <span className="pcard-price">₹{displayPrice}</span>
-          {hasDiscount && <span className="pcard-strike">₹{p.full_fee}</span>}
+          <span className="pcard-demo-label">Demo class from</span>
+          <span className="pcard-price">₹{p.trial_fee}</span>
         </div>
         <div className="pcard-cta">View Program <span className="pcard-arrow">→</span></div>
       </div>
