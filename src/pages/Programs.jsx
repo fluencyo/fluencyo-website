@@ -15,30 +15,31 @@ function TicketCard({ p }) {
   const [g1, g2] = LANG_GRADIENTS[p.language] || ["#4A22CC", "#6B2BE0"];
   const hasDiscount = p.discount_price && p.discount_price < p.full_fee;
   const hasImage = !!p.image_url;
+  const providerName = p.source_type === "partner" ? (p.partner_name || "Partner") : "Fluencyo";
+  const displayPrice = hasDiscount ? p.discount_price : p.full_fee;
 
   const bannerStyle = hasImage
     ? { backgroundImage: `url(${p.image_url})` }
     : { background: `linear-gradient(135deg, ${g1}, ${g2})` };
 
   return (
-    <Link to={`/programs/${p.slug}`} className="ticket">
-      {hasDiscount && <div className="ticket-stamp">SAVE {Math.round((1 - p.discount_price / p.full_fee) * 100)}%</div>}
-      <div className={`ticket-stub-top${hasImage ? " has-image" : ""}`} style={bannerStyle} />
-      <div className="ticket-perf" />
-      <div className="ticket-body">
-        <div className="ticket-info-row">
-          <span className="ticket-info-flag">{LANG_FLAGS[p.language] || "🌐"}</span>
-          <span className="ticket-info-lang">{p.language}</span>
-          {p.level_code && <span className="ticket-info-level">{p.level_code}</span>}
+    <Link to={`/programs/${p.slug}`} className="pcard">
+      {hasDiscount && <div className="pcard-save">SAVE {Math.round((1 - p.discount_price / p.full_fee) * 100)}%</div>}
+      <div className={`pcard-banner${hasImage ? " has-image" : ""}`} style={bannerStyle}>
+        <div className="pcard-lang-badge">
+          {LANG_FLAGS[p.language] || "🌐"} {p.language}{p.level_code ? ` · ${p.level_code}` : ""}
         </div>
-        <div className="demo-pill">✓ Demo class available</div>
-        <h3>{p.title}</h3>
-        <p>{p.short_description}</p>
-        <div className="ticket-code">SEAT · {p.slug.toUpperCase()} · {p.duration_weeks} WEEKS</div>
-        <div className="ticket-foot">
-          <div className="ticket-price"><small>Trial from</small><b>₹{p.trial_fee}</b></div>
-          <div className="ticket-go">→</div>
+      </div>
+      <div className="pcard-body">
+        <div className="pcard-provider">{providerName}</div>
+        <h3 className="pcard-title">{p.title}</h3>
+        <p className="pcard-desc">{p.short_description}</p>
+        <div className="pcard-demo-row">Try a 30-min demo — just <b>₹{p.trial_fee}</b></div>
+        <div className="pcard-price-row">
+          <span className="pcard-price">₹{displayPrice}</span>
+          {hasDiscount && <span className="pcard-strike">₹{p.full_fee}</span>}
         </div>
+        <div className="pcard-cta">View Program <span className="pcard-arrow">→</span></div>
       </div>
     </Link>
   );
