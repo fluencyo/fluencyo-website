@@ -54,6 +54,8 @@ function Programs() {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [languageFilter, setLanguageFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const [fluencyoExpanded, setFluencyoExpanded] = useState(false);
+  const [partnerExpanded, setPartnerExpanded] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/programs`)
@@ -138,9 +140,24 @@ function Programs() {
                   <h2>Fluencyo Programs</h2>
                   <span className="group-tag tag-own">Trained by our tutors</span>
                 </div>
-                <div className="ticket-grid">
-                  {fluencyoPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
-                </div>
+                {fluencyoExpanded ? (
+                  <div className="ticket-grid">
+                    {fluencyoPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
+                  </div>
+                ) : (
+                  <div className="marquee-wrap">
+                    <div className="marquee-track">
+                      {[...fluencyoPrograms, ...fluencyoPrograms].map((p, i) => (
+                        <div className="marquee-card" key={`${p.id}-${i}`}><TicketCard p={p} /></div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {fluencyoPrograms.length > 4 && (
+                  <button className="show-more-btn" onClick={() => setFluencyoExpanded((v) => !v)}>
+                    {fluencyoExpanded ? "Show less" : `Show all ${fluencyoPrograms.length} programs →`}
+                  </button>
+                )}
               </div>
             )}
 
@@ -150,9 +167,24 @@ function Programs() {
                   <h2>Partner Programs</h2>
                   <span className="group-tag tag-partner">Certified by our partners</span>
                 </div>
-                <div className="ticket-grid">
-                  {partnerPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
-                </div>
+                {partnerExpanded ? (
+                  <div className="ticket-grid">
+                    {partnerPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
+                  </div>
+                ) : (
+                  <div className="marquee-wrap">
+                    <div className="marquee-track marquee-reverse">
+                      {[...partnerPrograms, ...partnerPrograms].map((p, i) => (
+                        <div className="marquee-card" key={`${p.id}-${i}`}><TicketCard p={p} /></div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {partnerPrograms.length > 4 && (
+                  <button className="show-more-btn" onClick={() => setPartnerExpanded((v) => !v)}>
+                    {partnerExpanded ? "Show less" : `Show all ${partnerPrograms.length} programs →`}
+                  </button>
+                )}
               </div>
             )}
 
