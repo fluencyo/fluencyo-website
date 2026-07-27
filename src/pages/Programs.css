@@ -63,6 +63,7 @@
 .cat-5 { background: linear-gradient(150deg, #B8860B, #FFD24C); }
 .cat-6 { background: linear-gradient(150deg, #16A34A, #4ADE80); }
 .cat-7 { background: linear-gradient(150deg, #EA580C, #FB923C); }
+.cat-8 { background: linear-gradient(150deg, #DB2777, #F472B6); }
 
 /* ===== FILTERS ===== */
 .lang-filter-row { display: flex; justify-content: center; gap: 8px; margin: 40px 0 8px; flex-wrap: wrap; }
@@ -85,6 +86,18 @@
 
 .show-more-btn { display: block; margin: 22px auto 0; background: #fff; border: 1.5px solid var(--paper-line); color: var(--purple-bright); font-weight: 800; font-size: 13.5px; padding: 11px 24px; border-radius: 100px; cursor: pointer; }
 .show-more-btn:hover { border-color: var(--purple-bright); background: rgba(107,43,224,.05); }
+/* ===== AUTO CAROUSEL — "All Programs" section only ===== */
+.carousel-wrap { position: relative; }
+.carousel-viewport { overflow: hidden; width: 100%; }
+.carousel-track { display: flex; transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.carousel-page { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; flex: 0 0 100%; width: 100%; box-sizing: border-box; }
+@media (max-width: 1200px) { .carousel-page { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px) { .carousel-page { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .carousel-page { grid-template-columns: 1fr; } }
+
+.carousel-dots { display: flex; justify-content: center; gap: 7px; margin-top: 20px; }
+.carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--paper-line); cursor: pointer; transition: .2s; }
+.carousel-dot.active { background: var(--purple-bright); width: 20px; border-radius: 4px; }
 
 .pcard { position: relative; display: block; background: #fff; border-radius: 22px; overflow: hidden; text-decoration: none; color: inherit; border: 1.5px solid var(--paper-line); box-shadow: 0 4px 0 rgba(21,6,54,.06), 0 18px 40px rgba(74,34,224,.16); transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s ease; }
 .pcard:hover { transform: translateY(-6px); box-shadow: 0 8px 0 rgba(21,6,54,.08), 0 30px 60px rgba(74,34,224,.24); }

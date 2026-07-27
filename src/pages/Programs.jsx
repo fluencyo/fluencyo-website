@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Programs.css";
 
@@ -11,47 +11,6 @@ const LANG_GRADIENTS = {
   Chinese: ["#E11D48", "#4A22CC"], Italian: ["#30D88A", "#2D0E7A"],
 };
 
-function ProgramCarousel({ programs, cardsPerPage = 4 }) {
-  const [page, setPage] = useState(0);
-  const totalPages = Math.ceil(programs.length / cardsPerPage);
-
-  useEffect(() => {
-    if (totalPages <= 1) return;
-    const interval = setInterval(() => {
-      setPage((p) => (p + 1) % totalPages);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [totalPages]);
-
-  const goTo = (dir) => {
-    setPage((p) => (p + dir + totalPages) % totalPages);
-  };
-
-  return (
-    <div className="carousel-wrap">
-      <button className="carousel-arrow carousel-arrow-left" onClick={() => goTo(-1)} aria-label="Previous">‹</button>
-      <div className="carousel-viewport">
-        <div className="carousel-track" style={{ transform: `translateX(-${page * 100}%)` }}>
-          {Array.from({ length: totalPages }).map((_, pageIndex) => (
-            <div className="carousel-page" key={pageIndex}>
-              {programs.slice(pageIndex * cardsPerPage, pageIndex * cardsPerPage + cardsPerPage).map((p) => (
-                <TicketCard key={p.id} p={p} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <button className="carousel-arrow carousel-arrow-right" onClick={() => goTo(1)} aria-label="Next">›</button>
-      {totalPages > 1 && (
-        <div className="carousel-dots">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <div key={i} className={`carousel-dot${i === page ? " active" : ""}`} onClick={() => setPage(i)} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 function TicketCard({ p }) {
   const [g1, g2] = LANG_GRADIENTS[p.language] || ["#4A22CC", "#6B2BE0"];
   const hasImage = !!p.image_url;
@@ -74,6 +33,70 @@ function TicketCard({ p }) {
   );
 }
 
+// Auto-advancing carousel, used only for the "All Programs" section on top
+function AutoCarousel({ programs }) {
+  const [page, setPage] = useState(0);
+  const cardsPerPage = 4;
+  const totalPages = Math.ceil(programs.length / cardsPerPage);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (totalPages <= 1) return;
+    timerRef.current = setInterval(() => {
+      setPage((p) => (p + 1) % totalPages);
+    }, 2000);
+    return () => clearInterval(timerRef.current);
+  }, [totalPages]);
+
+  if (programs.length === 0) return null;
+
+  return (
+    <div className="carousel-wrap">
+      <div className="carousel-viewport">
+        <div className="carousel-track" style={{ transform: `translateX(-${page * 100}%)` }}>
+          {Array.from({ length: totalPages }).map((_, pageIndex) => (
+            <div className="carousel-page" key={pageIndex}>
+              {programs.slice(pageIndex * cardsPerPage, pageIndex * cardsPerPage + cardsPerPage).map((p) => (
+                <TicketCard key={p.id} p={p} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      {totalPages > 1 && (
+        <div className="carousel-dots">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <div key={i} className={`carousel-dot${i === page ? " active" : ""}`} onClick={() => setPage(i)} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Static grid with a "Show more" button, used for every category section
+function CategorySection({ title, tagLabel, tagClass, programs }) {
+  const [expanded, setExpanded] = useState(false);
+  if (programs.length === 0) return null;
+
+  return (
+    <div className="group">
+      <div className="group-head">
+        <h2>{title}</h2>
+        <span className={`group-tag ${tagClass}`}>{tagLabel}</span>
+      </div>
+      <div className="ticket-grid">
+        {(expanded ? programs : programs.slice(0, 4)).map((p) => <TicketCard key={p.id} p={p} />)}
+      </div>
+      {programs.length > 4 && (
+        <button className="show-more-btn" onClick={() => setExpanded((v) => !v)}>
+          {expanded ? "Show less" : `Show ${programs.length - 4} more`}
+        </button>
+      )}
+    </div>
+  );
+}
+
 const CATEGORY_TILES = [
   { key: "Certification Exam", cls: "cat-1", icon: "🎓", title: "Certification Programs", sub: "IELTS, JLPT, DELF, DELE & more — exam-ready, one-on-one." },
   { key: "Corporate Training", cls: "cat-2", icon: "🏢", title: "Corporate Training", sub: "Business & workplace English for teams." },
@@ -82,6 +105,7 @@ const CATEGORY_TILES = [
   { key: "Courses for NRIs", cls: "cat-5", icon: "🌍", title: "Courses for NRIs", sub: "Language and culture training tailored for NRIs abroad." },
   { key: "General Language Programs", cls: "cat-6", icon: "💬", title: "General Language Programs", sub: "Everyday conversational fluency, at your own pace." },
   { key: "Indian Language Programs", cls: "cat-7", icon: "🇮🇳", title: "Indian Language Programs", sub: "Hindi, Telugu, Tamil, and more — for learners of all backgrounds." },
+  { key: "Kids Programs", cls: "cat-8", icon: "🧒", title: "Kids Programs", sub: "Fun, age-appropriate language learning for young learners." },
 ];
 
 function Programs() {
@@ -91,8 +115,6 @@ function Programs() {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [languageFilter, setLanguageFilter] = useState("All");
   const [search, setSearch] = useState("");
-  const [fluencyoExpanded, setFluencyoExpanded] = useState(false);
-  const [partnerExpanded, setPartnerExpanded] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/programs`)
@@ -102,7 +124,6 @@ function Programs() {
       .finally(() => setLoading(false));
   }, []);
 
-  const realCategories = [...new Set(programs.map((p) => p.category))];
   const realLanguages = [...new Set(programs.map((p) => p.language))];
 
   const filtered = programs.filter((p) => {
@@ -114,8 +135,11 @@ function Programs() {
     return matchesCategory && matchesLanguage && matchesSearch;
   });
 
-  const fluencyoPrograms = filtered.filter((p) => p.source_type === "fluencyo");
+  // Real categories that actually have at least one program, in a fixed
+  // sensible order — not just whatever order they happen to appear in the DB.
+  const CATEGORY_ORDER = ["Certification Exam", "Kids Programs", "University Partnership", "Corporate Training", "Courses for NRIs", "General Language Programs", "Indian Language Programs", "1:1 Tutoring"];
   const partnerPrograms = filtered.filter((p) => p.source_type === "partner");
+  const fluencyoOwnPrograms = filtered.filter((p) => p.source_type !== "partner");
 
   return (
     <div className="programs-page">
@@ -140,7 +164,7 @@ function Programs() {
         <div className="categories">
           <div className="categories-head">
             <h2>What are you here for?</h2>
-            <p>Four ways to learn with Fluencyo — pick what fits you.</p>
+            <p>Pick what fits you — or scroll down to browse everything.</p>
           </div>
           <div className="cat-grid">
             {CATEGORY_TILES.map((c) => (
@@ -165,50 +189,57 @@ function Programs() {
             ))}
           </div>
         )}
-
-        {loading && <div className="programs-empty">Loading programs…</div>}
-        {error && <div className="programs-empty">Could not load programs right now.</div>}
-
-        {!loading && !error && (
-          <>
-            {fluencyoPrograms.length > 0 && (
-              <div className="group">
-                <div className="group-head">
-                  <h2>Fluencyo Programs</h2>
-                  <span className="group-tag tag-own">Trained by our tutors</span>
-                </div>
-                <div className="ticket-grid">
-                  {(fluencyoExpanded ? fluencyoPrograms : fluencyoPrograms.slice(0, 4)).map((p) => <TicketCard key={p.id} p={p} />)}
-                </div>
-                {fluencyoPrograms.length > 4 && (
-                  <button className="show-more-btn" onClick={() => setFluencyoExpanded((v) => !v)}>
-                    {fluencyoExpanded ? "Show less" : `Show ${fluencyoPrograms.length - 4} more`}
-                  </button>
-                )}
-              </div>
-            )}
-
-            {partnerPrograms.length > 0 && (
-              <div className="group">
-                <div className="group-head">
-                  <h2>Partner Programs</h2>
-                  <span className="group-tag tag-partner">Certified by our partners</span>
-                </div>
-                <div className="ticket-grid">
-                  {(partnerExpanded ? partnerPrograms : partnerPrograms.slice(0, 4)).map((p) => <TicketCard key={p.id} p={p} />)}
-                </div>
-                {partnerPrograms.length > 4 && (
-                  <button className="show-more-btn" onClick={() => setPartnerExpanded((v) => !v)}>
-                    {partnerExpanded ? "Show less" : `Show ${partnerPrograms.length - 4} more`}
-                  </button>
-                )}
-              </div>
-            )}
-
-            {filtered.length === 0 && <div className="programs-empty">No programs match right now — try a different filter.</div>}
-          </>
-        )}
       </div>
+
+      {loading && <div className="programs-empty">Loading programs…</div>}
+      {error && <div className="programs-empty">Could not load programs right now.</div>}
+
+      {!loading && !error && (
+        <>
+          {categoryFilter === "All" ? (
+            <>
+              <div className="container">
+                <div className="group">
+                  <div className="group-head">
+                    <h2>All Programs</h2>
+                  </div>
+                  <AutoCarousel programs={filtered} />
+                </div>
+              </div>
+
+              {CATEGORY_ORDER.map((cat) => (
+                <div className="container" key={cat}>
+                  <CategorySection
+                    title={CATEGORY_TILES.find((c) => c.key === cat)?.title || cat}
+                    tagLabel="Fluencyo"
+                    tagClass="tag-own"
+                    programs={fluencyoOwnPrograms.filter((p) => p.category === cat)}
+                  />
+                </div>
+              ))}
+
+              <div className="container">
+                <CategorySection
+                  title="Partner Programs"
+                  tagLabel="Certified by our partners"
+                  tagClass="tag-partner"
+                  programs={partnerPrograms}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="container">
+              <div className="group">
+                <div className="group-head"><h2>{categoryFilter}</h2></div>
+                <div className="ticket-grid">
+                  {filtered.map((p) => <TicketCard key={p.id} p={p} />)}
+                </div>
+                {filtered.length === 0 && <div className="programs-empty">No programs match right now — try a different filter.</div>}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
