@@ -281,6 +281,33 @@ function ProgramDetail() {
         <meta property="og:title" content={`${program.title} — Fluencyo`} />
         <meta property="og:description" content={program.short_description || ""} />
         {program.image_url && <meta property="og:image" content={program.image_url} />}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": program.title,
+            "description": program.short_description || program.full_description || "",
+            "provider": {
+              "@type": "Organization",
+              "name": program.source_type === "partner" ? (program.partner_name || "Fluencyo") : "Fluencyo",
+              "sameAs": "https://fluencyo.com",
+            },
+            "inLanguage": program.language,
+            ...(program.image_url ? { "image": program.image_url } : {}),
+            "offers": {
+              "@type": "Offer",
+              "category": "Paid",
+              "price": program.discount_price || program.full_fee,
+              "priceCurrency": "INR",
+              "url": `https://fluencyo.com/programs/${program.slug}`,
+            },
+            "hasCourseInstance": {
+              "@type": "CourseInstance",
+              "courseMode": "online",
+              "courseWorkload": program.duration_weeks ? `P${program.duration_weeks}W` : undefined,
+            },
+          })}
+        </script>
       </Helmet>
       <div className="sticky-bar">
         <div>
