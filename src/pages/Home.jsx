@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import Hero from "../components/Hero";
 import Ticker from "../components/Ticker";
 import BookClass from "../components/BookClass";
@@ -62,6 +63,10 @@ function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Fluencyo — Live 1-on-1 Language Coaching & Certification Prep</title>
+        <meta name="description" content="Learn any language with real, live 1-on-1 tutors. IELTS, JLPT, DELF certification coaching, corporate training, and spoken language classes — book a demo class today." />
+      </Helmet>
       <div className="bg-orbs">
         <div className="orb orb-1" />
         <div className="orb orb-2" />

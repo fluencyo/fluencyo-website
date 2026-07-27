@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "./Programs.css";
 
 const API_URL = process.env.REACT_APP_API_URL || "https://api.fluencyo.com/api";
@@ -274,6 +275,13 @@ function ProgramDetail() {
 
   return (
     <div className="programs-page">
+      <Helmet>
+        <title>{program.title} — 1-on-1 {program.language} Coaching | Fluencyo</title>
+        <meta name="description" content={program.short_description || `Live 1-on-1 ${program.language} coaching. Book a demo class for ${program.title} today.`} />
+        <meta property="og:title" content={`${program.title} — Fluencyo`} />
+        <meta property="og:description" content={program.short_description || ""} />
+        {program.image_url && <meta property="og:image" content={program.image_url} />}
+      </Helmet>
       <div className="sticky-bar">
         <div>
           <div className="sticky-bar-title">{program.title}</div>
