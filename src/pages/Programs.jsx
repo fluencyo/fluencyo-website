@@ -181,16 +181,12 @@ function Programs() {
                   <h2>Fluencyo Programs</h2>
                   <span className="group-tag tag-own">Trained by our tutors</span>
                 </div>
-                {fluencyoExpanded ? (
-                  <div className="ticket-grid">
-                    {fluencyoPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
-                  </div>
-                ) : (
-                  <ProgramCarousel programs={fluencyoPrograms} />
-                )}
+                <div className="ticket-grid">
+                  {(fluencyoExpanded ? fluencyoPrograms : fluencyoPrograms.slice(0, 4)).map((p) => <TicketCard key={p.id} p={p} />)}
+                </div>
                 {fluencyoPrograms.length > 4 && (
                   <button className="show-more-btn" onClick={() => setFluencyoExpanded((v) => !v)}>
-                    {fluencyoExpanded ? "Show less" : `Show all ${fluencyoPrograms.length} programs →`}
+                    {fluencyoExpanded ? "Show less" : `Show ${fluencyoPrograms.length - 4} more`}
                   </button>
                 )}
               </div>
@@ -202,16 +198,12 @@ function Programs() {
                   <h2>Partner Programs</h2>
                   <span className="group-tag tag-partner">Certified by our partners</span>
                 </div>
-                {partnerExpanded ? (
-                  <div className="ticket-grid">
-                    {partnerPrograms.map((p) => <TicketCard key={p.id} p={p} />)}
-                  </div>
-                ) : (
-                  <ProgramCarousel programs={partnerPrograms} />
-                )}
+                <div className="ticket-grid">
+                  {(partnerExpanded ? partnerPrograms : partnerPrograms.slice(0, 4)).map((p) => <TicketCard key={p.id} p={p} />)}
+                </div>
                 {partnerPrograms.length > 4 && (
                   <button className="show-more-btn" onClick={() => setPartnerExpanded((v) => !v)}>
-                    {partnerExpanded ? "Show less" : `Show all ${partnerPrograms.length} programs →`}
+                    {partnerExpanded ? "Show less" : `Show ${partnerPrograms.length - 4} more`}
                   </button>
                 )}
               </div>
