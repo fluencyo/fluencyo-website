@@ -334,7 +334,7 @@ function ProgramDetail() {
             {program.level_code && <div className="info-tag">{program.level_code}</div>}
             {isPartner && <div className="info-tag">Certified by {program.partner_name}</div>}
           </div>
-          <div className="info-title">{program.title}</div>
+          <h1 className="info-title">{program.title}</h1>
           <div className="info-desc">{program.full_description}</div>
           <div className="info-cta-row">
             <a href="#pricing" className="cta-primary" onClick={scrollToPricing}>
