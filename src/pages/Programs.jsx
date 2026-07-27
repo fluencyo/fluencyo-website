@@ -68,10 +68,6 @@ function TicketCard({ p }) {
         <div className="pcard-provider">{providerName}</div>
         <h3 className="pcard-title">{p.title}</h3>
         <p className="pcard-desc">{p.short_description}</p>
-        <div className="pcard-price-row">
-          <span className="pcard-demo-label">Demo class from</span>
-          <span className="pcard-price">₹{p.trial_fee}</span>
-        </div>
         <div className="pcard-cta">View Program <span className="pcard-arrow">→</span></div>
       </div>
     </Link>
