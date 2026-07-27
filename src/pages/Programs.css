@@ -89,7 +89,7 @@
 .pcard { position: relative; display: block; background: #fff; border-radius: 22px; overflow: hidden; text-decoration: none; color: inherit; border: 1.5px solid var(--paper-line); box-shadow: 0 4px 0 rgba(21,6,54,.06), 0 18px 40px rgba(74,34,224,.16); transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s ease; }
 .pcard:hover { transform: translateY(-6px); box-shadow: 0 8px 0 rgba(21,6,54,.08), 0 30px 60px rgba(74,34,224,.24); }
 
-.pcard-banner { aspect-ratio: 16 / 9; background-size: cover; background-position: center; }
+.pcard-banner { aspect-ratio: 16 / 9; background-size: contain; background-repeat: no-repeat; background-position: center; background-color: #F4F1FF; }
 
 .pcard-body { padding: 22px 22px 24px; }
 .pcard-provider { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
