@@ -57,15 +57,150 @@ const EUROPEAN_LEVELS = {
   B2: { price: 5000, duration: 75 },
 };
 const LANGUAGES_CONFIG = {
-  french: { label: "French", flag: "🇫🇷", levels: EUROPEAN_LEVELS },
-  spanish: { label: "Spanish", flag: "🇪🇸", levels: EUROPEAN_LEVELS },
-  german: { label: "German", flag: "🇩🇪", levels: EUROPEAN_LEVELS },
-  japanese: { label: "Japanese", flag: "🇯🇵", levels: { N5: { price: 2000, duration: 35 }, N4: { price: 3500, duration: 50 }, N3: { price: 5000, duration: 65 } } },
-  mandarin: { label: "Mandarin Chinese", flag: "🇨🇳", levels: { HSK1: { price: 5000, duration: 35 }, HSK2: { price: 7000, duration: 50 } } },
-  arabic: { label: "Arabic", flag: "🇸🇦", custom: true },
-  korean: { label: "Korean", flag: "🇰🇷", custom: true },
+  french: {
+    label: "French", flag: "🇫🇷", tagline: "The language of diplomacy, EU careers & global mobility",
+    why: "French is an official language in 29 countries and a core requirement for EU institutions, UN roles, and Canadian immigration points. It's also the second most-taught language in the world after English.",
+    whoFor: ["Students targeting Canada PR — French fluency adds real immigration points", "Commerce & international relations students", "Hospitality & tourism aspirants eyeing French-speaking markets"],
+    levels: EUROPEAN_LEVELS,
+  },
+  spanish: {
+    label: "Spanish", flag: "🇪🇸", tagline: "500M+ speakers, the fastest-growing business language",
+    why: "Spanish is the world's 2nd most-spoken native language and the most requested second language in US and LATAM business roles. Growing fast in customer support, sales, and trade careers.",
+    whoFor: ["Business & commerce students eyeing LATAM/US-Hispanic markets", "Customer support & BPO career aspirants", "Anyone wanting the highest-ROI second language globally"],
+    levels: EUROPEAN_LEVELS,
+  },
+  german: {
+    label: "German", flag: "🇩🇪", tagline: "Europe's engineering powerhouse — and mostly tuition-free Master's",
+    why: "Germany runs Europe's largest economy and hundreds of public universities offer tuition-free Master's programs. German fluency is often mandatory for engineering, automotive, and manufacturing roles.",
+    whoFor: ["Engineering & STEM students planning an MS in Germany", "Anyone targeting Bosch, Siemens, VW, or similar German employers", "Students seeking tuition-free European education"],
+    levels: EUROPEAN_LEVELS,
+  },
+  japanese: {
+    label: "Japanese", flag: "🇯🇵", tagline: "JLPT-certified fluency for Japan's tech & manufacturing boom",
+    why: "Japan's aging workforce is actively recruiting skilled foreign talent, and most corporate roles require JLPT certification. Strong demand in automotive, gaming, robotics, and manufacturing.",
+    whoFor: ["Engineering & CS students eyeing Japan's tech sector", "Anyone pursuing JLPT for corporate sponsorship", "Students drawn to Japanese business culture & innovation"],
+    levels: { N5: { price: 2000, duration: 35 }, N4: { price: 3500, duration: 50 }, N3: { price: 5000, duration: 65 } },
+  },
+  mandarin: {
+    label: "Mandarin Chinese", flag: "🇨🇳", tagline: "The world's most-spoken language, essential for global trade",
+    why: "Mandarin is critical for international trade, supply chain, and manufacturing careers given China's role in global commerce. HSK certification opens doors in import-export and multinational trade roles.",
+    whoFor: ["International business & trade students", "Import-export and supply chain career aspirants", "Anyone working with China-linked manufacturing or sourcing"],
+    levels: { HSK1: { price: 5000, duration: 35 }, HSK2: { price: 7000, duration: 50 } },
+  },
+  arabic: {
+    label: "Arabic", flag: "🇸🇦", tagline: "Your gateway to the booming Gulf job market",
+    why: "The UAE, Saudi Arabia, and Qatar host millions of Indian professionals across construction, hospitality, aviation, and business. Arabic fluency significantly improves employability and salary in Gulf roles.",
+    whoFor: ["Anyone targeting UAE, Saudi, or Qatar employment", "Hospitality & aviation career aspirants", "Business students pursuing Middle East trade"],
+    custom: true,
+  },
+  korean: {
+    label: "Korean", flag: "🇰🇷", tagline: "Ride the Korean Wave — culturally and professionally",
+    why: "Beyond K-pop and K-dramas, Korea is home to Samsung, LG, and Hyundai — global tech and manufacturing leaders. TOPIK certification is often required for corporate roles and study programs in Korea.",
+    whoFor: ["Students interested in Korean tech companies", "K-culture enthusiasts wanting real fluency", "Anyone pursuing study-abroad programs in Korea"],
+    custom: true,
+  },
 };
 const OFFLINE_FLAT_RATE = 5000;
+
+const PROGRAM_INCLUDES = [
+  { icon: "🎥", label: "Live tutor-led sessions" },
+  { icon: "🤖", label: "Unlimited AI practice with Fluto" },
+  { icon: "📊", label: "Dedicated CMS dashboard for your institution" },
+  { icon: "📱", label: "Full LMS access for every student" },
+  { icon: "🏅", label: "Verified, checkable certification" },
+  { icon: "📼", label: "Recorded sessions for revision" },
+];
+
+function ProgramsShowcase({ onConfigure }) {
+  const [active, setActive] = useState("french");
+  const p = LANGUAGES_CONFIG[active];
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 40, flexWrap: "wrap" }}>
+        {Object.entries(LANGUAGES_CONFIG).map(([key, l]) => (
+          <button
+            key={key}
+            onClick={() => setActive(key)}
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              padding: "12px 22px", borderRadius: 100, fontWeight: 700, fontSize: 14,
+              border: active === key ? "1.5px solid rgba(255,210,76,.5)" : "1px solid rgba(255,255,255,.12)",
+              background: active === key ? "rgba(255,210,76,.12)" : "rgba(255,255,255,.04)",
+              color: active === key ? "var(--gold)" : "rgba(255,255,255,.7)",
+              cursor: "pointer", transition: "all .2s",
+            }}
+          >
+            <span style={{ fontSize: 17 }}>{l.flag}</span>{l.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="glass-card" style={{ padding: 44, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(106,43,224,.2), transparent 70%)", top: -100, right: -100, pointerEvents: "none" }} />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12, position: "relative" }}>
+          <span style={{ fontSize: 44 }}>{p.flag}</span>
+          <div>
+            <h3 style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.5px" }}>{p.label} for Institutions</h3>
+            <p style={{ color: "var(--gold)", fontSize: 14, fontWeight: 700, marginTop: 2 }}>{p.tagline}</p>
+          </div>
+        </div>
+
+        <p style={{ fontSize: 15, color: "rgba(255,255,255,.65)", lineHeight: 1.8, marginBottom: 28, maxWidth: 720, position: "relative" }}>{p.why}</p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 32, position: "relative" }}>
+          <div>
+            <div className="section-label" style={{ marginBottom: 16 }}>Who Should Take This</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {p.whoFor.map((w, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(61,191,255,.15)", border: "1px solid rgba(61,191,255,.35)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1, fontSize: 11, color: "var(--cyan)" }}>→</div>
+                  <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.75)", lineHeight: 1.55 }}>{w}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="section-label" style={{ marginBottom: 16 }}>Every Program Includes</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {PROGRAM_INCLUDES.map((inc, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(255,255,255,.7)", fontWeight: 600 }}>
+                  <span style={{ fontSize: 15 }}>{inc.icon}</span>{inc.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {p.custom ? (
+          <div style={{ background: "rgba(255,210,76,.08)", border: "1px solid rgba(255,210,76,.25)", borderRadius: 16, padding: 28, textAlign: "center", position: "relative" }}>
+            <p style={{ fontSize: 15, color: "rgba(255,255,255,.8)", marginBottom: 16, fontWeight: 600 }}>{p.label} pricing is tailored per institution — let's talk scope.</p>
+            <a href="#lead-form" className="btn-primary" style={{ display: "inline-flex" }}>Get a Custom Quote</a>
+          </div>
+        ) : (
+          <>
+            <div className="section-label" style={{ marginBottom: 16, position: "relative" }}>Levels, Duration & Pricing</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24, position: "relative" }}>
+              {Object.entries(p.levels).map(([lvl, info], i) => (
+                <div key={lvl} style={{ background: "rgba(255,255,255,.04)", border: i === 0 ? "1.5px solid rgba(255,210,76,.4)" : "1px solid rgba(255,255,255,.1)", borderRadius: 16, padding: 18, textAlign: "center", position: "relative" }}>
+                  {i === 0 && <div style={{ position: "absolute", top: -10, left: "50%", transform: "translateX(-50%)", background: "var(--gold)", color: "#7A4500", fontSize: 9, fontWeight: 900, padding: "3px 10px", borderRadius: 100, whiteSpace: "nowrap" }}>MOST POPULAR START</div>}
+                  <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 4 }}>{lvl}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,.4)", marginBottom: 10 }}>{info.duration} days</div>
+                  <div style={{ fontSize: 20, fontWeight: 900 }} className="gradient-text">₹{info.price.toLocaleString("en-IN")}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,.35)" }}>per student</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ textAlign: "center", position: "relative" }}>
+              <button className="btn-primary" onClick={() => onConfigure(active)}>Configure This Program</button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function loadRazorpayScript() {
   return new Promise((resolve) => {
@@ -78,8 +213,8 @@ function loadRazorpayScript() {
   });
 }
 
-function ProgramCalculator() {
-  const [language, setLanguage] = useState("french");
+function ProgramCalculator({ initialLanguage = "french" }) {
+  const [language, setLanguage] = useState(initialLanguage);
   const [level, setLevel] = useState("A1");
   const [mode, setMode] = useState("online");
   const [count, setCount] = useState(40);
@@ -373,9 +508,49 @@ function InstitutionsLeadForm() {
 const fieldLabelStyle = { display: "block", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.5)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 };
 const fieldInputStyle = { width: "100%", padding: "13px 16px", borderRadius: 12, border: "1.5px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: 15, fontFamily: "'Nunito',sans-serif", boxSizing: "border-box" };
 
+const FAQS = [
+  { q: "How is pricing calculated for larger batches?", a: "Rates shown are per-student for standard batch sizes. For 100+ students, or multi-language/multi-year commitments, we offer custom negotiated pricing — use the calculator to get a baseline, then contact us for volume rates." },
+  { q: "What's the difference between online and offline delivery?", a: "Online is fully remote via our live-class platform, minimum 40 students, priced per level. Offline means our tutors come to your campus, flat ₹5,000/student regardless of language or level, minimum 50 students." },
+  { q: "Do we need to sign an MOU before paying?", a: "Not necessarily — you can reserve and pay for standard programs directly through the calculator above. For customized scope (larger volumes, mixed delivery modes, non-standard levels), we'll draft an MOU first." },
+  { q: "How quickly do students get LMS access after payment?", a: "Automatically, usually within minutes of payment confirmation — but only once we have their names/emails from you. Share your student list right after paying and we'll get credentials out within 24 hours." },
+  { q: "Can individual students pay instead of the institution paying centrally?", a: "Yes. Ask your account manager to set this up — each student gets their own secure payment link and activates independently." },
+  { q: "What happens if we have fewer students than the minimum threshold?", a: "Smaller batches are still possible — reach out via the contact form and we'll work out custom pricing for your actual headcount." },
+  { q: "How are exams and certificates handled?", a: "Exams are conducted at the end of each level. Results publish within 5 days, and verified certificates are issued within 10 working days of results — visible in both your CMS and each student's LMS." },
+  { q: "Who do we contact for support after signing up?", a: "You'll get a dedicated account manager, plus direct email support at partners@fluencyo.com for anything partnership-related." },
+];
+
+function InstitutionsFaq() {
+  const [open, setOpen] = useState(null);
+  return (
+    <section className="container inst-reveal reveal" style={{ maxWidth: 780, margin: "0 auto 100px" }}>
+      <div className="hiw-header">
+        <div className="section-label" style={{ margin: "0 auto 20px" }}>FAQs</div>
+        <h2>Questions institutions <span className="gradient-text">actually ask</span></h2>
+      </div>
+      <div className="glass-card" style={{ padding: 8 }}>
+        {FAQS.map((f, i) => (
+          <div
+            key={i}
+            onClick={() => setOpen(open === i ? null : i)}
+            style={{ padding: "20px 24px", borderBottom: i < FAQS.length - 1 ? "1px solid rgba(255,255,255,.08)" : "none", cursor: "pointer" }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: 700, fontSize: 15.5 }}>
+              {f.q}
+              <span style={{ color: "var(--gold)", fontSize: 20, transform: open === i ? "rotate(45deg)" : "none", transition: ".2s", flexShrink: 0, marginLeft: 16 }}>+</span>
+            </div>
+            {open === i && <div style={{ fontSize: 14, color: "rgba(255,255,255,.6)", marginTop: 12, lineHeight: 1.75 }}>{f.a}</div>}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Institutions() {
   const [audience, setAudience] = useState("college");
+  const [calcLanguage, setCalcLanguage] = useState("french");
   const formRef = useRef(null);
+  const calcRef = useRef(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -386,6 +561,10 @@ function Institutions() {
   }, []);
 
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleConfigure = (langKey) => {
+    setCalcLanguage(langKey);
+    calcRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   const current = AUDIENCES[audience];
 
   return (
@@ -454,6 +633,16 @@ function Institutions() {
           </div>
         </section>
 
+        {/* PROGRAMS SHOWCASE */}
+        <section className="container inst-reveal reveal" style={{ marginBottom: 100 }}>
+          <div className="hiw-header">
+            <div className="section-label" style={{ margin: "0 auto 20px" }}>Programs</div>
+            <h2>A program for <span className="gradient-text">every language, every goal</span></h2>
+            <p>Explore what each language offers, who it's built for, and exactly what your students get.</p>
+          </div>
+          <ProgramsShowcase onConfigure={handleConfigure} />
+        </section>
+
         {/* HOW IT WORKS */}
         <section className="container inst-reveal reveal" style={{ marginBottom: 100 }}>
           <div className="hiw-header">
@@ -472,44 +661,9 @@ function Institutions() {
           </div>
         </section>
 
-        {/* PRICING TABLE */}
-        <section className="container inst-reveal reveal" style={{ marginBottom: 60 }}>
-          <div className="hiw-header">
-            <div className="section-label" style={{ margin: "0 auto 20px" }}>Pricing</div>
-            <h2>Clear rates, <span className="gradient-text">level by level</span></h2>
-            <p>Online batches: minimum 40 students · Offline batches: minimum 50 students · Negotiable for larger volumes</p>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {Object.entries(LANGUAGES_CONFIG).map(([key, l]) => (
-              <div key={key} className="glass-card" style={{ padding: 28 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-                  <span style={{ fontSize: 26 }}>{l.flag}</span>
-                  <span style={{ fontWeight: 800, fontSize: 17 }}>{l.label}</span>
-                </div>
-                {l.custom ? (
-                  <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.5)", padding: "16px 0" }}>Custom pricing — <a href="#lead-form" style={{ color: "var(--cyan)" }}>contact us</a></div>
-                ) : (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    {Object.entries(l.levels).map(([lvl, info]) => (
-                      <div key={lvl} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13.5 }}>
-                        <span style={{ fontWeight: 700, color: "rgba(255,255,255,.8)" }}>{lvl}</span>
-                        <span style={{ color: "rgba(255,255,255,.45)" }}>{info.duration}d</span>
-                        <span style={{ fontWeight: 800, color: "var(--gold)" }}>₹{info.price.toLocaleString("en-IN")}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <p style={{ textAlign: "center", fontSize: 13, color: "rgba(255,255,255,.4)", marginTop: 24 }}>
-            Offline (on-campus) delivery: flat ₹5,000/student across all languages and levels, minimum 50 students.
-          </p>
-        </section>
-
         {/* CALCULATOR */}
-        <section className="container inst-reveal reveal" style={{ maxWidth: 640, margin: "0 auto 100px" }}>
-          <ProgramCalculator />
+        <section className="container inst-reveal reveal" ref={calcRef} style={{ maxWidth: 640, margin: "0 auto 100px" }}>
+          <ProgramCalculator key={calcLanguage} initialLanguage={calcLanguage} />
         </section>
 
         {/* PARTNER PORTALS */}
@@ -531,9 +685,12 @@ function Institutions() {
         </section>
 
         {/* LEAD FORM */}
-        <section className="container inst-reveal reveal" ref={formRef} id="lead-form" style={{ maxWidth: 640, margin: "0 auto" }}>
+        <section className="container inst-reveal reveal" ref={formRef} id="lead-form" style={{ maxWidth: 640, margin: "0 auto 100px" }}>
           <InstitutionsLeadForm />
         </section>
+
+        {/* FAQ */}
+        <InstitutionsFaq />
       </main>
     </>
   );
