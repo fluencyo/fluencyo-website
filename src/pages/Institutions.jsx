@@ -58,49 +58,67 @@ const EUROPEAN_LEVELS = {
 };
 const LANGUAGES_CONFIG = {
   french: {
-    label: "French", flag: "🇫🇷", tagline: "The language of diplomacy, EU careers & global mobility",
-    why: "French is an official language in 29 countries and a core requirement for EU institutions, UN roles, and Canadian immigration points. It's also the second most-taught language in the world after English.",
+    label: "French", flag: "🇫🇷", tagline: "The language of diplomacy, EU careers & global mobility", accent: "cyan",
+    why: "French is an official language in 29 countries and a core requirement for EU institutions, UN roles, and Canadian immigration points.",
+    stats: [{ v: "29", l: "Countries" }, { v: "2nd", l: "Most-Taught Globally" }, { v: "🇨🇦", l: "Canada PR Boost" }],
     whoFor: ["Students targeting Canada PR — French fluency adds real immigration points", "Commerce & international relations students", "Hospitality & tourism aspirants eyeing French-speaking markets"],
     levels: EUROPEAN_LEVELS,
   },
   spanish: {
-    label: "Spanish", flag: "🇪🇸", tagline: "500M+ speakers, the fastest-growing business language",
-    why: "Spanish is the world's 2nd most-spoken native language and the most requested second language in US and LATAM business roles. Growing fast in customer support, sales, and trade careers.",
+    label: "Spanish", flag: "🇪🇸", tagline: "500M+ speakers, the fastest-growing business language", accent: "orange",
+    why: "Spanish is the world's 2nd most-spoken native language and the most requested second language in US and LATAM business roles.",
+    stats: [{ v: "500M+", l: "Native Speakers" }, { v: "2nd", l: "Most Spoken Globally" }, { v: "20+", l: "Countries" }],
     whoFor: ["Business & commerce students eyeing LATAM/US-Hispanic markets", "Customer support & BPO career aspirants", "Anyone wanting the highest-ROI second language globally"],
     levels: EUROPEAN_LEVELS,
   },
   german: {
-    label: "German", flag: "🇩🇪", tagline: "Europe's engineering powerhouse — and mostly tuition-free Master's",
-    why: "Germany runs Europe's largest economy and hundreds of public universities offer tuition-free Master's programs. German fluency is often mandatory for engineering, automotive, and manufacturing roles.",
+    label: "German", flag: "🇩🇪", tagline: "Europe's engineering powerhouse — and mostly tuition-free Master's", accent: "green",
+    why: "Germany runs Europe's largest economy and hundreds of public universities offer tuition-free Master's programs.",
+    stats: [{ v: "400+", l: "Tuition-Free Universities" }, { v: "#1", l: "Europe's Economy" }, { v: "High", l: "Engineering Demand" }],
     whoFor: ["Engineering & STEM students planning an MS in Germany", "Anyone targeting Bosch, Siemens, VW, or similar German employers", "Students seeking tuition-free European education"],
     levels: EUROPEAN_LEVELS,
   },
   japanese: {
-    label: "Japanese", flag: "🇯🇵", tagline: "JLPT-certified fluency for Japan's tech & manufacturing boom",
-    why: "Japan's aging workforce is actively recruiting skilled foreign talent, and most corporate roles require JLPT certification. Strong demand in automotive, gaming, robotics, and manufacturing.",
+    label: "Japanese", flag: "🇯🇵", tagline: "JLPT-certified fluency for Japan's tech & manufacturing boom", accent: "pink",
+    why: "Japan's aging workforce is actively recruiting skilled foreign talent, and most corporate roles require JLPT certification.",
+    stats: [{ v: "125M", l: "Speakers" }, { v: "JLPT", l: "Corporate Standard" }, { v: "🇯🇵", l: "Aging Workforce = Opportunity" }],
     whoFor: ["Engineering & CS students eyeing Japan's tech sector", "Anyone pursuing JLPT for corporate sponsorship", "Students drawn to Japanese business culture & innovation"],
     levels: { N5: { price: 2000, duration: 35 }, N4: { price: 3500, duration: 50 }, N3: { price: 5000, duration: 65 } },
   },
   mandarin: {
-    label: "Mandarin Chinese", flag: "🇨🇳", tagline: "The world's most-spoken language, essential for global trade",
-    why: "Mandarin is critical for international trade, supply chain, and manufacturing careers given China's role in global commerce. HSK certification opens doors in import-export and multinational trade roles.",
+    label: "Mandarin Chinese", flag: "🇨🇳", tagline: "The world's most-spoken language, essential for global trade", accent: "gold",
+    why: "Mandarin is critical for international trade, supply chain, and manufacturing careers given China's role in global commerce.",
+    stats: [{ v: "1.1B+", l: "Speakers Worldwide" }, { v: "#1", l: "Most Spoken Language" }, { v: "Global", l: "Trade Standard" }],
     whoFor: ["International business & trade students", "Import-export and supply chain career aspirants", "Anyone working with China-linked manufacturing or sourcing"],
     levels: { HSK1: { price: 5000, duration: 35 }, HSK2: { price: 7000, duration: 50 } },
   },
   arabic: {
-    label: "Arabic", flag: "🇸🇦", tagline: "Your gateway to the booming Gulf job market",
-    why: "The UAE, Saudi Arabia, and Qatar host millions of Indian professionals across construction, hospitality, aviation, and business. Arabic fluency significantly improves employability and salary in Gulf roles.",
+    label: "Arabic", flag: "🇸🇦", tagline: "Your gateway to the booming Gulf job market", accent: "purple",
+    why: "The UAE, Saudi Arabia, and Qatar host millions of Indian professionals across construction, hospitality, aviation, and business.",
+    stats: [{ v: "22", l: "Countries" }, { v: "Gulf", l: "Job Market Boom" }, { v: "High", l: "NRI Workforce Demand" }],
     whoFor: ["Anyone targeting UAE, Saudi, or Qatar employment", "Hospitality & aviation career aspirants", "Business students pursuing Middle East trade"],
     custom: true,
   },
   korean: {
-    label: "Korean", flag: "🇰🇷", tagline: "Ride the Korean Wave — culturally and professionally",
-    why: "Beyond K-pop and K-dramas, Korea is home to Samsung, LG, and Hyundai — global tech and manufacturing leaders. TOPIK certification is often required for corporate roles and study programs in Korea.",
+    label: "Korean", flag: "🇰🇷", tagline: "Ride the Korean Wave — culturally and professionally", accent: "cyan",
+    why: "Beyond K-pop and K-dramas, Korea is home to Samsung, LG, and Hyundai — global tech and manufacturing leaders.",
+    stats: [{ v: "K-Wave", l: "Global Cultural Reach" }, { v: "3", l: "Fortune 500 HQs" }, { v: "TOPIK", l: "Certification Standard" }],
     whoFor: ["Students interested in Korean tech companies", "K-culture enthusiasts wanting real fluency", "Anyone pursuing study-abroad programs in Korea"],
     custom: true,
   },
 };
 const OFFLINE_FLAT_RATE = 5000;
+
+const ACCENTS = {
+  cyan: { color: "var(--cyan)", bg: "rgba(61,191,255,.14)", border: "rgba(61,191,255,.35)" },
+  orange: { color: "var(--orange)", bg: "rgba(255,87,34,.14)", border: "rgba(255,87,34,.35)" },
+  green: { color: "var(--green)", bg: "rgba(48,216,138,.14)", border: "rgba(48,216,138,.35)" },
+  pink: { color: "var(--pink)", bg: "rgba(232,121,249,.14)", border: "rgba(232,121,249,.35)" },
+  gold: { color: "var(--gold)", bg: "rgba(255,210,76,.14)", border: "rgba(255,210,76,.35)" },
+  purple: { color: "var(--purple-vivid)", bg: "rgba(107,43,224,.18)", border: "rgba(107,43,224,.4)" },
+};
+
+const FEATURE_ICON_CLASSES = ["fi-purple", "fi-gold", "fi-green", "fi-cyan", "fi-orange", "fi-pink"];
 
 const PROGRAM_INCLUDES = [
   { icon: "🎥", label: "Live tutor-led sessions" },
@@ -114,89 +132,136 @@ const PROGRAM_INCLUDES = [
 function ProgramsShowcase({ onConfigure }) {
   const [active, setActive] = useState("french");
   const p = LANGUAGES_CONFIG[active];
+  const acc = ACCENTS[p.accent];
 
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 40, flexWrap: "wrap" }}>
-        {Object.entries(LANGUAGES_CONFIG).map(([key, l]) => (
-          <button
-            key={key}
-            onClick={() => setActive(key)}
-            style={{
-              display: "flex", alignItems: "center", gap: 8,
-              padding: "12px 22px", borderRadius: 100, fontWeight: 700, fontSize: 14,
-              border: active === key ? "1.5px solid rgba(255,210,76,.5)" : "1px solid rgba(255,255,255,.12)",
-              background: active === key ? "rgba(255,210,76,.12)" : "rgba(255,255,255,.04)",
-              color: active === key ? "var(--gold)" : "rgba(255,255,255,.7)",
-              cursor: "pointer", transition: "all .2s",
-            }}
-          >
-            <span style={{ fontSize: 17 }}>{l.flag}</span>{l.label}
-          </button>
-        ))}
+        {Object.entries(LANGUAGES_CONFIG).map(([key, l]) => {
+          const a = ACCENTS[l.accent];
+          const isActive = active === key;
+          return (
+            <button
+              key={key}
+              onClick={() => setActive(key)}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                padding: "12px 22px", borderRadius: 100, fontWeight: 700, fontSize: 14,
+                border: isActive ? `1.5px solid ${a.border}` : "1px solid rgba(255,255,255,.12)",
+                background: isActive ? a.bg : "rgba(255,255,255,.04)",
+                color: isActive ? a.color : "rgba(255,255,255,.7)",
+                cursor: "pointer", transition: "all .2s",
+                transform: isActive ? "translateY(-2px)" : "none",
+                boxShadow: isActive ? `0 8px 24px ${a.bg}` : "none",
+              }}
+            >
+              <span style={{ fontSize: 17 }}>{l.flag}</span>{l.label}
+            </button>
+          );
+        })}
       </div>
 
-      <div className="glass-card" style={{ padding: 44, position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(106,43,224,.2), transparent 70%)", top: -100, right: -100, pointerEvents: "none" }} />
+      <div className="glass-card" style={{ padding: 0, overflow: "hidden", position: "relative", borderColor: acc.border }}>
+        <div style={{ position: "absolute", width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle, ${acc.bg}, transparent 70%)`, top: -160, right: -140, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: `linear-gradient(90deg, transparent, ${acc.color}, transparent)` }} />
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12, position: "relative" }}>
-          <span style={{ fontSize: 44 }}>{p.flag}</span>
-          <div>
-            <h3 style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.5px" }}>{p.label} for Institutions</h3>
-            <p style={{ color: "var(--gold)", fontSize: 14, fontWeight: 700, marginTop: 2 }}>{p.tagline}</p>
+        {/* HEADER */}
+        <div style={{ padding: "40px 44px 0", position: "relative" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 18 }}>
+            <div style={{ width: 76, height: 76, borderRadius: 22, background: acc.bg, border: `1.5px solid ${acc.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38, flexShrink: 0, boxShadow: `0 8px 28px ${acc.bg}` }}>{p.flag}</div>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: acc.color, marginBottom: 4 }}>Program Spotlight</div>
+              <h3 style={{ fontSize: 30, fontWeight: 900, letterSpacing: "-0.5px", lineHeight: 1.1 }}>{p.label} for Institutions</h3>
+            </div>
+          </div>
+          <p style={{ fontSize: 16.5, fontWeight: 700, color: acc.color, marginBottom: 20 }}>{p.tagline}</p>
+          <p style={{ fontSize: 14.5, color: "rgba(255,255,255,.6)", lineHeight: 1.8, marginBottom: 28, maxWidth: 680 }}>{p.why}</p>
+
+          {/* STAT ROW */}
+          <div style={{ display: "flex", gap: 36, marginBottom: 32, flexWrap: "wrap" }}>
+            {p.stats.map((s, i) => (
+              <div key={i}>
+                <div style={{ fontSize: 28, fontWeight: 900, background: `linear-gradient(135deg, #fff, ${acc.color})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1 }}>{s.v}</div>
+                <div style={{ fontSize: 11.5, color: "rgba(255,255,255,.45)", fontWeight: 700, marginTop: 4 }}>{s.l}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <p style={{ fontSize: 15, color: "rgba(255,255,255,.65)", lineHeight: 1.8, marginBottom: 28, maxWidth: 720, position: "relative" }}>{p.why}</p>
+        <div style={{ height: 1, background: "rgba(255,255,255,.08)" }} />
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 32, position: "relative" }}>
+        {/* WHO + INCLUDES */}
+        <div style={{ padding: "32px 44px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, position: "relative" }}>
           <div>
-            <div className="section-label" style={{ marginBottom: 16 }}>Who Should Take This</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div className="section-label" style={{ marginBottom: 18 }}>Who Should Take This</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {p.whoFor.map((w, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                  <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(61,191,255,.15)", border: "1px solid rgba(61,191,255,.35)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1, fontSize: 11, color: "var(--cyan)" }}>→</div>
-                  <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.75)", lineHeight: 1.55 }}>{w}</div>
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 14, padding: "12px 16px" }}>
+                  <div style={{ width: 26, height: 26, borderRadius: 8, background: acc.bg, border: `1px solid ${acc.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, color: acc.color, fontWeight: 900 }}>{i + 1}</div>
+                  <div style={{ fontSize: 13, color: "rgba(255,255,255,.8)", lineHeight: 1.5, fontWeight: 600 }}>{w}</div>
                 </div>
               ))}
             </div>
           </div>
           <div>
-            <div className="section-label" style={{ marginBottom: 16 }}>Every Program Includes</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <div className="section-label" style={{ marginBottom: 18 }}>Every Program Includes</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               {PROGRAM_INCLUDES.map((inc, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(255,255,255,.7)", fontWeight: 600 }}>
-                  <span style={{ fontSize: 15 }}>{inc.icon}</span>{inc.label}
+                <div key={i} style={{ background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 14, padding: "14px 12px" }}>
+                  <div className={`feature-icon ${FEATURE_ICON_CLASSES[i % FEATURE_ICON_CLASSES.length]}`} style={{ width: 34, height: 34, borderRadius: 10, fontSize: 15, marginBottom: 8 }}>{inc.icon}</div>
+                  <div style={{ fontSize: 11.5, color: "rgba(255,255,255,.75)", fontWeight: 700, lineHeight: 1.35 }}>{inc.label}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {p.custom ? (
-          <div style={{ background: "rgba(255,210,76,.08)", border: "1px solid rgba(255,210,76,.25)", borderRadius: 16, padding: 28, textAlign: "center", position: "relative" }}>
-            <p style={{ fontSize: 15, color: "rgba(255,255,255,.8)", marginBottom: 16, fontWeight: 600 }}>{p.label} pricing is tailored per institution — let's talk scope.</p>
-            <a href="#lead-form" className="btn-primary" style={{ display: "inline-flex" }}>Get a Custom Quote</a>
-          </div>
-        ) : (
-          <>
-            <div className="section-label" style={{ marginBottom: 16, position: "relative" }}>Levels, Duration & Pricing</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24, position: "relative" }}>
-              {Object.entries(p.levels).map(([lvl, info], i) => (
-                <div key={lvl} style={{ background: "rgba(255,255,255,.04)", border: i === 0 ? "1.5px solid rgba(255,210,76,.4)" : "1px solid rgba(255,255,255,.1)", borderRadius: 16, padding: 18, textAlign: "center", position: "relative" }}>
-                  {i === 0 && <div style={{ position: "absolute", top: -10, left: "50%", transform: "translateX(-50%)", background: "var(--gold)", color: "#7A4500", fontSize: 9, fontWeight: 900, padding: "3px 10px", borderRadius: 100, whiteSpace: "nowrap" }}>MOST POPULAR START</div>}
-                  <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 4 }}>{lvl}</div>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,.4)", marginBottom: 10 }}>{info.duration} days</div>
-                  <div style={{ fontSize: 20, fontWeight: 900 }} className="gradient-text">₹{info.price.toLocaleString("en-IN")}</div>
-                  <div style={{ fontSize: 10, color: "rgba(255,255,255,.35)" }}>per student</div>
-                </div>
-              ))}
+        <div style={{ height: 1, background: "rgba(255,255,255,.08)" }} />
+
+        {/* PRICING */}
+        <div style={{ padding: "32px 44px 40px", position: "relative" }}>
+          {p.custom ? (
+            <div style={{ background: acc.bg, border: `1px solid ${acc.border}`, borderRadius: 16, padding: 32, textAlign: "center" }}>
+              <p style={{ fontSize: 16, color: "rgba(255,255,255,.85)", marginBottom: 18, fontWeight: 700 }}>{p.label} pricing is tailored per institution — let's talk scope.</p>
+              <a href="#lead-form" className="btn-primary" style={{ display: "inline-flex" }}>Get a Custom Quote</a>
             </div>
-            <div style={{ textAlign: "center", position: "relative" }}>
-              <button className="btn-primary" onClick={() => onConfigure(active)}>Configure This Program</button>
-            </div>
-          </>
-        )}
+          ) : (
+            <>
+              <div className="section-label" style={{ marginBottom: 18 }}>Levels, Duration & Pricing</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 28 }}>
+                {Object.entries(p.levels).map(([lvl, info], i) => (
+                  <div
+                    key={lvl}
+                    style={{
+                      background: i === 0 ? acc.bg : "rgba(255,255,255,.04)",
+                      border: i === 0 ? `1.5px solid ${acc.border}` : "1px solid rgba(255,255,255,.1)",
+                      borderRadius: 18, padding: "22px 16px", textAlign: "center", position: "relative",
+                      transition: "transform .2s",
+                    }}
+                  >
+                    {i === 0 && (
+                      <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: acc.color, color: "#1A1033", fontSize: 9, fontWeight: 900, padding: "4px 12px", borderRadius: 100, whiteSpace: "nowrap", letterSpacing: "0.03em" }}>
+                        ★ MOST POPULAR START
+                      </div>
+                    )}
+                    <div style={{ display: "flex", justifyContent: "center", gap: 3, marginBottom: 10 }}>
+                      {Object.keys(p.levels).map((_, dotI) => (
+                        <div key={dotI} style={{ width: 5, height: 5, borderRadius: "50%", background: dotI <= i ? acc.color : "rgba(255,255,255,.15)" }} />
+                      ))}
+                    </div>
+                    <div style={{ fontSize: 21, fontWeight: 900, marginBottom: 4 }}>{lvl}</div>
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,.4)", marginBottom: 14, fontWeight: 600 }}>{info.duration} days</div>
+                    <div style={{ fontSize: 24, fontWeight: 900 }} className="gradient-text">₹{info.price.toLocaleString("en-IN")}</div>
+                    <div style={{ fontSize: 10, color: "rgba(255,255,255,.35)", fontWeight: 600 }}>per student</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <button className="btn-primary" onClick={() => onConfigure(active)}>Configure This Program →</button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
