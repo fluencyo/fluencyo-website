@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Programs from "./pages/Programs";
 import ProgramDetail from "./pages/ProgramDetail";
 import LegalPage from "./pages/LegalPage";
+import Institutions from "./pages/Institutions";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/programs" element={<Programs />} />
         <Route path="/programs/:slug" element={<ProgramDetail />} />
+        <Route path="/institutions" element={<Institutions />} />
         <Route path="/privacy-policy" element={<LegalPage />} />
 <Route path="/refund-policy" element={<LegalPage />} />
 <Route path="/terms-and-conditions" element={<LegalPage />} />

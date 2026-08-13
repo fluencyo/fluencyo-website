@@ -35,6 +35,7 @@ function Nav() {
               <a href={isHome ? "#languages" : "/#languages"} onClick={(e) => { if (isHome) { e.preventDefault(); scrollTo("languages"); } }}>Languages</a>
               <a href={isHome ? "#about" : "/#about"} onClick={(e) => { if (isHome) { e.preventDefault(); scrollTo("about"); } }}>How it Works</a>
               <Link to="/programs">Programs</Link>
+              <Link to="/institutions">For Institutions</Link>
             </div>
             <div className="nav-cta">
               <Link to="/programs" className="nav-download-btn">
@@ -52,6 +53,7 @@ function Nav() {
         <a href={isHome ? "#languages" : "/#languages"} onClick={(e) => { if (isHome) { e.preventDefault(); scrollTo("languages"); } else setMobileOpen(false); }}>Languages</a>
         <a href={isHome ? "#about" : "/#about"} onClick={(e) => { if (isHome) { e.preventDefault(); scrollTo("about"); } else setMobileOpen(false); }}>How it Works</a>
         <Link to="/programs" onClick={() => setMobileOpen(false)}>Programs</Link>
+        <Link to="/institutions" onClick={() => setMobileOpen(false)}>For Institutions</Link>
         <Link to="/programs" onClick={() => setMobileOpen(false)}>Book a Class</Link>
       </div>
     </>
